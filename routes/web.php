@@ -58,9 +58,7 @@ Route::get('/product/specific/badam', function(){
     ]);
 })->name('products.badam');
 
-// Route::get('/product/specific/khejur', function(){
-    
-// });
+
 
 // Admin specific routes
 Route::get('/admin/products', function(){

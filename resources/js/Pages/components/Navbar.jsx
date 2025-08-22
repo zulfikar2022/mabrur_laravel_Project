@@ -47,12 +47,12 @@ export default function Navbar() {
                         >
                             যোগাযোগ
                         </Link>
-                        <Link
+                        {/* <Link
                             href={route('home')}
                             className="ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                         >
                             Login
-                        </Link>
+                        </Link> */}
                     </div>
 
                     {/* Hamburger */}
@@ -124,12 +124,12 @@ export default function Navbar() {
                     >
                         যোগাযোগ
                     </Link>
-                    <Link
+                    {/* <Link
                         href={route('home')}
                         className="block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                     >
                         Login
-                    </Link>
+                    </Link> */}
                 </div>
             )}
         </nav>

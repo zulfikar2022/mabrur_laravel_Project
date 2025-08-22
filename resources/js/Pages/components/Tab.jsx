@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 const Tabs = ({ products }) => {
     const [activeTab, setActiveTab] = useState("all");
-    const { delete: destroy } = useForm();
+    const { delete: destroy, get } = useForm();
 
     const handleDeleteProduct = (productItself) => {
         Swal.fire({
@@ -35,17 +35,11 @@ const Tabs = ({ products }) => {
         });
     }
 
-    {
-
-        /*
-         <div className="flex flex-row justify-between  w-full mt-3">
-                                        <p className="text-white bg-green-500 px-3 py-1 rounded">Update</p>
-                                        <p onClick={() => handleDeleteProduct(product)} className="text-white bg-red-500 px-3 py-1 rounded hover:cursor-pointer">Delete</p>
-                                    </div>
-
-                                       src={`http://127.0.0.1:8000/storage/${product.image_path}`}
-        */
+    const handleEditProduct = (productId) => {
+        get(route("products.edit", productId));
     }
+
+
 
     const tabs = [
         { id: "all", label: "সকল প্রোডাক্ট" },
@@ -77,13 +71,13 @@ const Tabs = ({ products }) => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                         {
                             products.length > 0 ? products.map(product =>
-                                <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
+                                <div key={product.id} className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
                                     <img src={`http://127.0.0.1:8000/storage/${product.image_path}`} alt={product.name} className="h-32 w-full object-cover rounded" />
                                     <h3 className="text-lg font-semibold mb-1">{product.name}</h3>
                                     <p className="text-gray-600 text-sm mb-2">{product.description}</p>
                                     <span className="text-blue-600 font-bold">৳ {product.price_per_kg}/কেজি</span>
                                     <div className="flex flex-row justify-between  w-full mt-3">
-                                        <p className="text-white bg-green-500 px-3 py-1 rounded">Update</p>
+                                        <p onClick={() => handleEditProduct(product.id)} className="text-white bg-green-500 px-3 py-1 rounded hover:cursor-pointer">Update</p>
                                         <p onClick={() => handleDeleteProduct(product)} className="text-white bg-red-500 px-3 py-1 rounded hover:cursor-pointer">Delete</p>
                                     </div>
                                 </div>) : <div className="text-red-600">
@@ -97,13 +91,13 @@ const Tabs = ({ products }) => {
                         {
                             products.filter(product => product.category === 'date').length > 0 ? (
                                 products.filter(product => product.category === 'date').map(product => (
-                                    <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
+                                    <div key={product.id} className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
                                         <img src={`http://127.0.0.1:8000/storage/${product.image_path}`} alt={product.name} className="h-32 w-full object-cover rounded" />
                                         <h3 className="text-lg font-semibold mb-1">{product.name}</h3>
                                         <p className="text-gray-600 text-sm mb-2">{product.description}</p>
                                         <span className="text-blue-600 font-bold">৳ {product.price_per_kg}/কেজি</span>
                                         <div className="flex flex-row justify-between  w-full mt-3">
-                                            <p className="text-white bg-green-500 px-3 py-1 rounded">Update</p>
+                                            <p onClick={() => handleEditProduct(product.id)} className="text-white bg-green-500 px-3 py-1 rounded hover:cursor-pointer">Update</p>
                                             <p onClick={() => handleDeleteProduct(product)} className="text-white bg-red-500 px-3 py-1 rounded hover:cursor-pointer">Delete</p>
                                         </div>
                                     </div>
@@ -119,13 +113,13 @@ const Tabs = ({ products }) => {
                         {
                             products.filter(product => product.category === 'nut').length > 0 ? (
                                 products.filter(product => product.category === 'nut').map(product => (
-                                    <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
+                                    <div key={product.id} className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
                                         <img src={`http://127.0.0.1:8000/storage/${product.image_path}`} alt={product.name} className="h-32 w-full object-cover rounded" />
                                         <h3 className="text-lg font-semibold mb-1">{product.name}</h3>
                                         <p className="text-gray-600 text-sm mb-2">{product.description}</p>
                                         <span className="text-blue-600 font-bold">৳ {product.price_per_kg}/কেজি</span>
                                         <div className="flex flex-row justify-between  w-full mt-3">
-                                            <p className="text-white bg-green-500 px-3 py-1 rounded">Update</p>
+                                            <p onClick={() => handleEditProduct(product.id)} className="text-white bg-green-500 px-3 py-1 rounded hover:cursor-pointer">Update</p>
                                             <p onClick={() => handleDeleteProduct(product)} className="text-white bg-red-500 px-3 py-1 rounded hover:cursor-pointer">Delete</p>
                                         </div>
                                     </div>

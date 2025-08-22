@@ -1,5 +1,8 @@
 import { Head, Link } from "@inertiajs/react";
 import Navbar from "./components/Navbar";
+import { FaCartShopping } from "react-icons/fa6";
+import Cart from "./components/Cart";
+
 
 export default function MainLayout({ children, user, title }) {
     return (
@@ -11,7 +14,7 @@ export default function MainLayout({ children, user, title }) {
                 <Navbar />
             </header>
             <main className="container mx-auto px-4 py-8">
-                {!user?.isAdmin && <div className="drawer drawer-end z-50">
+                {!user?.isAdmin && <div className="drawer drawer-end z-50">  {/* TODO: have to invert the logic  */}
                     <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content">
                         {/* Page content here */}
@@ -25,10 +28,25 @@ export default function MainLayout({ children, user, title }) {
                         </ul>
                     </div>
                 </div>}
+
+                <div className="drawer drawer-end">
+                    <input id="my-drawer-5" type="checkbox" className="drawer-toggle" />
+                    <div className="drawer-content">
+                        {/* Page content here */}
+                        <label htmlFor="my-drawer-5" className="drawer-button btn btn-primary bg-blue-600"><FaCartShopping />
+                        </label>
+                    </div>
+                    <div className="drawer-side z-50">
+                        <label htmlFor="my-drawer-5" aria-label="close sidebar" className="drawer-overlay"></label>
+                        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 bg-blue-600">
+                            <Cart cartItems={JSON.parse(localStorage.getItem("mabrur_cart_items")) || []} />
+                        </ul>
+                    </div>
+                </div>
                 {children}
             </main>
             <footer>
-                <p>&copy; 2023 My E-commerce Site</p>
+                <p className="text-black text-center">&copy; 2023 My E-commerce Site</p>
             </footer>
         </div>
     );

@@ -15,7 +15,7 @@ const AddProduct = ({ user }) => {
         description: '',
         price_per_kg: '',
         total_kg: '',
-        image: null,
+        // image: null,
     });
 
 
@@ -33,10 +33,7 @@ const AddProduct = ({ user }) => {
         }
     };
 
-    const discardImage = () => {
-        setImage(null);
-        setPreview(null);
-    };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -50,7 +47,7 @@ const AddProduct = ({ user }) => {
             preserveScroll: true,
             forceFormData: true, // <-- this makes Inertia use FormData for file upload
             onSuccess: () => {
-                window.location.reload();
+                // window.location.reload();
             }
         });
 
@@ -91,14 +88,13 @@ const AddProduct = ({ user }) => {
                     {/* Name */}
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text text-black">নাম</span>
+                            <span className="label-text text-blue-500">নাম</span>
                         </label>
                         <input
                             type="text"
                             name='name'
                             placeholder="আপনার প্রোডাক্টের নাম দিন"
                             className="rounded input-bordered w-full border-gray-300 text-black"
-
                             onChange={(e) => setData('name', e.target.value)}
                             required
                         />
@@ -107,7 +103,7 @@ const AddProduct = ({ user }) => {
                     {/* Description */}
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text text-black">হালকা বিস্তারিত</span>
+                            <span className="label-text text-blue-500">হালকা বিস্তারিত</span>
                         </label>
                         <textarea
                             placeholder="হালকা বিস্তারিত দিন"
@@ -119,12 +115,12 @@ const AddProduct = ({ user }) => {
                     {/* Price Per Kg */}
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text text-black">প্রতি কেজির মূল্য</span>
+                            <span className="label-text text-blue-500">প্রতি কেজির মূল্য</span>
                         </label>
                         <input
                             type="number"
-                            step="0.01"
-                            min="0.01"
+                            step="1.0"
+                            min="1"
                             placeholder="প্রতি কেজির মূল্য"
                             className="rounded input-bordered w-full border-gray-300 text-black"
                             onChange={(e) => setData('price_per_kg', e.target.value)}
@@ -135,12 +131,12 @@ const AddProduct = ({ user }) => {
                     {/* Total Available in Kg */}
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text text-black">প্রোডাক্টের মোট পরিমাণ</span>
+                            <span className="label-text text-blue-500">প্রোডাক্টের মোট পরিমাণ</span>
                         </label>
                         <input
                             type="number"
-                            step="0.01"
-                            min="0.01"
+                            step="1.0"
+                            min="1"
                             placeholder="প্রোডাক্টের মোট পরিমাণ কেজিতে দিন"
                             className="rounded input-bordered w-full border-gray-300 text-black"
                             onChange={(e) => setData('total_kg', e.target.value)}
@@ -151,7 +147,7 @@ const AddProduct = ({ user }) => {
                     {/* Image Upload */}
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text text-black">ছবি</span>
+                            <span className="label-text text-blue-500">ছবি</span>
                         </label>
                         {!preview ? (
                             <input
@@ -168,13 +164,6 @@ const AddProduct = ({ user }) => {
                                     alt="Preview"
                                     className="w-full h-64 object-cover rounded-lg border border-gray-200"
                                 />
-                                <button
-                                    type="button"
-                                    onClick={discardImage}
-                                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
-                                >
-                                    ✕
-                                </button>
                             </div>
                         )}
                     </div>
