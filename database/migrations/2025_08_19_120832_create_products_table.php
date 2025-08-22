@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('description'); // Product description
             $table->decimal('price_per_kg', 8, 2); // Price per kg
             $table->decimal('total_available_in_kg', 8, 2); // Available quantity in kg
+            $table->boolean('is_deleted')->default(false); // Soft delete flag
             $table->string('image_path')->nullable(); // Path to product image
             $table->timestamps(); // created_at & updated_at
         });
