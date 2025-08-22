@@ -13,7 +13,7 @@ export default function MainLayout({ children, user, title }) {
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto px-4 py-8">
+            <main className="container mx-auto px-4 py-8 h-full">
                 {!user?.isAdmin && <div className="drawer drawer-end z-50">  {/* TODO: have to invert the logic  */}
                     <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content">

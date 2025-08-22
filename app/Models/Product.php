@@ -22,4 +22,10 @@ class Product extends Model
         'price_per_kg' => 'decimal:2',
         'total_available_in_kg' => 'decimal:2',
     ];
+
+    public static function getProducts()
+    {
+        // get products which have isDeleted false
+        return self::where('is_deleted', false)->get();
+    }
 }

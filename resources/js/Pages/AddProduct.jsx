@@ -47,7 +47,7 @@ const AddProduct = ({ user }) => {
             preserveScroll: true,
             forceFormData: true, // <-- this makes Inertia use FormData for file upload
             onSuccess: () => {
-                // window.location.reload();
+                window.location.reload();
             }
         });
 

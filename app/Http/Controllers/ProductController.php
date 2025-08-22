@@ -171,9 +171,11 @@ class ProductController extends Controller
                 unlink($imagePath);
             }
         }
-        $product->delete();
-        
-        $products = Product::all();
+        // $product->delete();
+        $product->is_deleted = true;
+        $product->save();
+
+        $products = Product::getProducts();
         $user = Auth::user();
         return redirect()->back()->with('success', 'Product deleted successfully!')->with('products', $products)->with('user', $user);
     }

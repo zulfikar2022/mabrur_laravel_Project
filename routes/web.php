@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    $products = Product::all();
+    $products = Product::getProducts();
     $user = Auth::user();
     
     return Inertia::render('Welcome', [
@@ -43,16 +43,16 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 Route::get("/products", [ProductController::class, 'index'])->name('products.index');
 
 Route::get('/product/specific/khejur', function(){
-    $khejurs = Product::where('category', 'date')->get();
-    
+    $khejurs = Product::where(['category' => 'date', 'is_deleted' => false])->get();
+
     return Inertia::render('Khejur', [
         'products' => $khejurs,
     ]);
 })->name('products.khejur');
 
 Route::get('/product/specific/badam', function(){
-    $badams = Product::where('category', 'nut')->get();
-    
+    $badams = Product::where(['category' => 'nut', 'is_deleted' => false])->get();
+
     return Inertia::render('Badam', [
         'products' => $badams,
     ]);
@@ -62,7 +62,7 @@ Route::get('/product/specific/badam', function(){
 
 // Admin specific routes
 Route::get('/admin/products', function(){
-    $products = Product::all();
+    $products = Product::getProducts();
     $user = Auth::user();
     if($user?->isAdmin){ // TODO: Have to invert the logic
         return Inertia::render("Unauthorized", [
