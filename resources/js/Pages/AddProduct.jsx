@@ -50,11 +50,6 @@ const AddProduct = ({ user }) => {
                 window.location.reload();
             }
         });
-
-
-
-
-
     };
 
 
