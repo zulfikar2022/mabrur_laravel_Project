@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import { MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowRight, MdStorefront } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import ShippingAddress from "./ShippingAddress";
+import { BsCartCheckFill } from "react-icons/bs";
 
 const districtsWithUpazilas = {
     Bagerhat: [
@@ -550,6 +551,28 @@ const districtsWithUpazilas = {
     ],
 };
 
+const calculateShippingCharge = (district) => {
+    const productsFromLocalStorage = JSON.parse(
+        localStorage.getItem("mabrur_cart_items")
+    );
+
+    let totalWeight = 0;
+    productsFromLocalStorage.forEach((product, index) => {
+        totalWeight += product.quantity_kg + product.quantity_gram / 1000;
+    });
+
+    if (district === "Dhaka") {
+        return 60;
+    }
+
+    totalWeight = Math.ceil(totalWeight);
+
+    if (totalWeight > 1) {
+        return 120 + (totalWeight - 1) * 20;
+    }
+    return 120;
+};
+
 export default function Cart({ isOpen }) {
     const [cartItems, setCartItems] = useState([]);
     const [cartedProducts, setCartedProducts] = useState([]);
@@ -558,6 +581,7 @@ export default function Cart({ isOpen }) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [seeTotalCost, setSeeTotalCost] = useState(false);
     const [makeOrder, setMakeOrder] = useState(false);
+
     const [shippingCharge, setShippingCharge] = useState(120);
 
     // CART ADDRESS states
@@ -566,14 +590,16 @@ export default function Cart({ isOpen }) {
     const [mobile, setMobile] = useState("");
     const [address, setAddress] = useState("");
     const [error, setError] = useState("");
+    const [name, setName] = useState("");
+
+    // an state to rerender the component
+    const [renderingController, setRenderingController] = useState(false);
 
     function formatNumber(num) {
         if (!num) {
             return 0;
         }
         return num % 1 === 0 ? num : Number(num.toFixed(2));
-
-        // return num;
     }
 
     const fetchCartItemsFromBackend = () => {
@@ -597,7 +623,7 @@ export default function Cart({ isOpen }) {
                 JSON.parse(localStorage.getItem("mabrur_cart_items")) || [];
             setCartItems(items);
         }
-    }, [isOpen]);
+    }, [isOpen, renderingController]);
 
     useEffect(() => {
         if (cartItems.length > 0) {
@@ -619,16 +645,28 @@ export default function Cart({ isOpen }) {
             "mabrur_cart_items",
             JSON.stringify(updatedCartItems)
         );
+
+        // window.location.reload();
     };
+
+    console.log(renderingController);
+    console.log(cartItems);
 
     return (
         <div className="text-white">
-            <div className="text-2xl font-bold ">আমার পছন্দের পণ্যগুলো</div>
+            <div className="text-2xl font-bold flex items-center gap-2 mb-4">
+                {" "}
+                <span>আমার কার্ট</span>
+                <span>
+                    <BsCartCheckFill />
+                </span>
+            </div>
             <div className="">
                 {cartItems.map(function (item, index) {
                     const cartedItemIndividual = cartedProducts.find(
                         (p) => p.id === item.id
                     );
+
                     return (
                         <div
                             key={item.id}
@@ -644,14 +682,14 @@ export default function Cart({ isOpen }) {
                             <div className="h-16 w-16">
                                 <img
                                     className="w-16 h-16 object-cover rounded"
-                                    src={`http://127.0.0.1:8000/storage/${item.image_path}`}
-                                    alt={item.name}
+                                    src={`http://127.0.0.1:8000/storage/${cartedItemIndividual?.image_path}`}
+                                    alt={cartedItemIndividual?.name}
                                 />
                             </div>
 
                             <div className="flex flex-col">
                                 <span className="text-lg font-semibold">
-                                    {item.name}
+                                    {cartedItemIndividual?.name}
                                 </span>
                                 <span className="text-sm text-gray-300">
                                     ৳ {cartedItemIndividual?.price_per_kg}/কেজি
@@ -664,7 +702,6 @@ export default function Cart({ isOpen }) {
                                                 parseFloat(
                                                     event.target.value
                                                 ) || 0;
-                                            console.log("value: ", value);
                                             setQuantitiesKg(
                                                 (prevQuantities) => {
                                                     const newQuantities = [
@@ -675,9 +712,46 @@ export default function Cart({ isOpen }) {
                                                     return newQuantities;
                                                 }
                                             );
+                                            let localStorageItems = JSON.parse(
+                                                localStorage.getItem(
+                                                    "mabrur_cart_items"
+                                                )
+                                            );
+                                            // console.log(localStorageItems);
+
+                                            localStorageItems =
+                                                localStorageItems.map(
+                                                    (storedItem) => {
+                                                        if (
+                                                            storedItem.id !==
+                                                            cartedItemIndividual?.id
+                                                        ) {
+                                                            return storedItem;
+                                                        }
+                                                        storedItem[
+                                                            "quantity_kg"
+                                                        ] = value;
+                                                        return storedItem;
+                                                    }
+                                                );
+                                            // console.log(localStorageItems);
+                                            localStorage.setItem(
+                                                "mabrur_cart_items",
+                                                JSON.stringify(
+                                                    localStorageItems
+                                                )
+                                            );
                                             setSeeTotalCost(false);
+                                            setRenderingController(
+                                                (prev) => !prev
+                                            );
                                         }}
-                                        defaultValue={1}
+                                        defaultValue={formatNumber(
+                                            parseFloat(
+                                                // cartItems[index].quantity_kg
+                                                item.quantity_kg
+                                            )
+                                        )}
                                         min={0}
                                         className="border border-gray-300 rounded p-1 w-1/4 text-black product-amount-in-kg"
                                     />
@@ -690,16 +764,11 @@ export default function Cart({ isOpen }) {
                                             {" "}
                                             <span>
                                                 {formatNumber(
-                                                    formatNumber(
-                                                        parseFloat(
-                                                            cartedProducts[
-                                                                index
-                                                            ]?.price_per_kg
-                                                        )
+                                                    parseFloat(
+                                                        cartedItemIndividual?.price_per_kg
                                                     ) *
-                                                        parseFloat(
-                                                            quantitiesKg[index]
-                                                        )
+                                                        cartItems[index]
+                                                            .quantity_kg
                                                 )}
                                             </span>{" "}
                                             Taka{" "}
@@ -724,9 +793,42 @@ export default function Cart({ isOpen }) {
                                                     return newQuantities;
                                                 }
                                             );
+
+                                            let localStorageItems = JSON.parse(
+                                                localStorage.getItem(
+                                                    "mabrur_cart_items"
+                                                )
+                                            );
+                                            localStorageItems =
+                                                localStorageItems.map(
+                                                    (storedItem, indx) => {
+                                                        if (
+                                                            storedItem.id !==
+                                                            item.id
+                                                        ) {
+                                                            return storedItem;
+                                                        }
+                                                        storedItem[
+                                                            "quantity_gram"
+                                                        ] = value;
+                                                        return storedItem;
+                                                    }
+                                                );
+                                            localStorage.setItem(
+                                                "mabrur_cart_items",
+                                                JSON.stringify(
+                                                    localStorageItems
+                                                )
+                                            );
+
                                             setSeeTotalCost(false);
+                                            setRenderingController(
+                                                (prev) => !prev
+                                            );
                                         }}
-                                        defaultValue={0}
+                                        defaultValue={formatNumber(
+                                            parseFloat(item.quantity_gram)
+                                        )}
                                         min={0}
                                         className="border border-gray-300 rounded p-1 w-1/4 text-black product-amount-in-gram"
                                     />
@@ -739,18 +841,11 @@ export default function Cart({ isOpen }) {
                                             {" "}
                                             <span>
                                                 {formatNumber(
-                                                    (formatNumber(
-                                                        parseFloat(
-                                                            cartedProducts[
-                                                                index
-                                                            ]?.price_per_kg
-                                                        )
+                                                    (parseFloat(
+                                                        cartedItemIndividual?.price_per_kg
                                                     ) *
-                                                        parseFloat(
-                                                            quantitiesGram[
-                                                                index
-                                                            ]
-                                                        )) /
+                                                        cartItems[index]
+                                                            .quantity_gram) /
                                                         1000
                                                 )}
                                             </span>{" "}
@@ -769,11 +864,15 @@ export default function Cart({ isOpen }) {
                         onClick={() => {
                             setSeeTotalCost((prev) => !prev);
                             let total = 0;
-                            cartedProducts.forEach((element, index) => {
+                            cartItems.forEach((product, indx) => {
+                                const productWithPrice = cartedProducts.find(
+                                    (pr) => pr.id === product.id
+                                );
                                 total +=
-                                    parseFloat(element.price_per_kg) *
-                                    (quantitiesKg[index] +
-                                        quantitiesGram[index] / 1000);
+                                    productWithPrice.price_per_kg *
+                                        product.quantity_kg +
+                                    (productWithPrice.price_per_kg / 1000) *
+                                        product.quantity_gram;
                             });
                             setTotalPrice(total);
                         }}
@@ -817,10 +916,31 @@ export default function Cart({ isOpen }) {
                     </div>
                 )}
                 {seeTotalCost && district ? (
-                    <div>
-                        <div className="flex justify-between">
+                    <div className="bg-white text-black px-2 rounded py-4">
+                        <div className="flex justify-between  ">
                             <p>পণ্যের মূল্য: </p>
-                            <span>{totalPrice} টাকা</span>
+                            <span className="">
+                                {formatNumber(totalPrice)} টাকা
+                            </span>
+                            <hr />
+                        </div>
+                        <div className="flex justify-between   border-b border-white ">
+                            <p>শিপিং চার্জ: </p>
+                            <span className="">
+                                {calculateShippingCharge(district)} টাকা
+                            </span>
+                            <hr />
+                        </div>
+                        <div className="flex justify-between  mt-2">
+                            <p>মোট মূল্য: </p>
+                            <span className="">
+                                {formatNumber(
+                                    totalPrice +
+                                        calculateShippingCharge(district)
+                                )}{" "}
+                                টাকা
+                            </span>
+                            <hr />
                         </div>
                     </div>
                 ) : (
@@ -855,6 +975,9 @@ export default function Cart({ isOpen }) {
                         setAddress={setAddress}
                         error={error}
                         setError={setError}
+                        cartItems={cartItems}
+                        name={name}
+                        setName={setName}
                     />
                 )}
             </div>

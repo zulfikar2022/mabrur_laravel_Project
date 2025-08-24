@@ -10,7 +10,10 @@ export default function Navbar() {
                 <div className="flex justify-between h-16 items-center">
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center">
-                        <Link href={route('home')} className="flex items-center">
+                        <Link
+                            href={route("home")}
+                            className="flex items-center"
+                        >
                             <div className="h-14 w-14 mr-2">
                                 <img
                                     className="overflow-hidden"
@@ -24,26 +27,26 @@ export default function Navbar() {
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-6 ml-auto">
                         <Link
-                            href={route('home')}
-                            className="text-gray-700 hover:text-blue-600 font-medium"
+                            href={route("home")}
+                            className="text-blue-500 hover:text-blue-600 underline  font-medium"
                         >
                             হোম
                         </Link>
                         <Link
-                            href={route('home')}
+                            href={route("home")}
                             className="hover:text-blue-600 font-medium text-gray-700"
                         >
                             খেজুর
                         </Link>
                         <Link
-                            href={route('home')}
-                            className="hover:text-blue-600 font-medium underline text-blue-600"
+                            href={route("home")}
+                            className="hover:text-blue-600 text-gray-700 font-medium "
                         >
                             বাদাম
                         </Link>
                         <Link
-                            href={route('home')}
-                            className="text-gray-700 hover:text-blue-600 font-medium"
+                            href={route("home")}
+                            className="text-gray-700 hover:text-blue-600  font-medium"
                         >
                             যোগাযোগ
                         </Link>
@@ -101,25 +104,25 @@ export default function Navbar() {
             {isOpen && (
                 <div className="md:hidden px-4 pb-4 space-y-2">
                     <Link
-                        href={route('home')}
+                        href={route("home")}
                         className="block text-gray-700 hover:text-blue-600 font-medium"
                     >
                         হোম
                     </Link>
                     <Link
-                        href={route('home')}
+                        href={route("home")}
                         className="block py-2 hover:text-blue-600 font-medium text-gray-700"
                     >
                         খেজুর
                     </Link>
                     <Link
-                        href={route('home')}
+                        href={route("home")}
                         className="block hover:text-blue-600 font-medium underline text-blue-600"
                     >
                         বাদাম
                     </Link>
                     <Link
-                        href={route('home')}
+                        href={route("home")}
                         className="block py-2 text-gray-700 hover:text-blue-600 font-medium"
                     >
                         যোগাযোগ
