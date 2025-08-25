@@ -8,11 +8,45 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/hello', function () {
-    return response()->json([
-        'message' => 'Hello from API!'
-    ]);
-});
+function shippingChargeCalculator($products, $district){
+    $totalWeight = 0;
+    foreach($products as $product) {
+        $totalWeight += $product['quantity'];
+    }
+
+    switch ($district) {
+        case 'Dhaka':
+            $totalWeightInGram = $totalWeight * 1000;
+            if ($totalWeightInGram <= 150) {
+                return 50;
+            } elseif ($totalWeightInGram <= 500) {
+                return 60;
+            }
+            $ceiledWeight = ceil($totalWeight);
+            if ($ceiledWeight > 1) {
+                return 70 + ($ceiledWeight - 1) * 20;
+            } else {
+                return 70;
+            }
+        default:
+            if ($totalWeight > 1) {
+                return 130 + (ceil($totalWeight) - 1) * 20;
+            } else {
+                return 130;
+            }
+    }
+}
+
+function totalPriceCalculator($products){
+    $totalPrice = 0;
+    foreach($products as $product) {
+        $productData = Product::find($product['id']);
+        if($productData) {
+            $totalPrice += $productData->price_per_kg * $product['quantity'];
+        }
+    }
+    return $totalPrice;
+}
 
 
 
@@ -30,11 +64,6 @@ Route::get('/products', function (Request $request) {
         'products' => $products
     ]);
 });
-
-// ids of products are passed in the request body as an associative array. Where the id will be the key and the quantity will be the value.The quantity will be in kg.something format. 
-// Next the address. The address will contain users name, mobile number, district, upazila, and a detailed address.
-//
-//
 
 Route::post('/place-order', function (Request $request) {
     // validate the request
@@ -57,6 +86,8 @@ Route::post('/place-order', function (Request $request) {
     $order->district = $validatedData['district'];
     $order->upazila = $validatedData['upazila'];
     $order->address = $validatedData['address'];
+    $order->delivery_charge = shippingChargeCalculator($validatedData['products'], $validatedData['district']);
+    $order->total_price = totalPriceCalculator($validatedData['products']);
     $order->save();
 
     // make the entry for order_products table
@@ -79,6 +110,5 @@ Route::post('/place-order', function (Request $request) {
             'upazila' => $order->upazila,
             'address' => $order->address,
         ],
-        'validatedData' => $validatedData,
     ]);
 });

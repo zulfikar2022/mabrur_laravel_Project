@@ -40,9 +40,17 @@ Route::resource('products', ProductController::class)->only(['create', 'edit', '
 
 // products related routes PUBLIC ROUTES
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-Route::get("/products", [ProductController::class, 'index'])->name('products.index');
 
-Route::get('/product/specific/khejur', function(){
+Route::get('/products', function(){
+    $products = Product::where('is_deleted', false)->get();
+    $user = Auth::user();
+    return Inertia::render('Welcome', [
+        'products' => $products,
+        'user'=> $user
+    ]);
+})->name('products.index');
+
+Route::get('/products/specific/khejur', function(){
     $khejurs = Product::where(['category' => 'date', 'is_deleted' => false])->get();
 
     return Inertia::render('Khejur', [
@@ -50,7 +58,7 @@ Route::get('/product/specific/khejur', function(){
     ]);
 })->name('products.khejur');
 
-Route::get('/product/specific/badam', function(){
+Route::get('/products/specific/badam', function(){
     $badams = Product::where(['category' => 'nut', 'is_deleted' => false])->get();
 
     return Inertia::render('Badam', [
@@ -83,3 +91,4 @@ Route::get('/phpinfo', function () {
 
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/orders.php';

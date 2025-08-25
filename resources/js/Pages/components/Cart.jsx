@@ -578,7 +578,7 @@ const calculateShippingCharge = (district) => {
     totalWeight = Math.ceil(totalWeight);
 
     if (totalWeight > 1) {
-        return 120 + (totalWeight - 1) * 20;
+        return 130 + (totalWeight - 1) * 20;
     }
     return 120;
 };
