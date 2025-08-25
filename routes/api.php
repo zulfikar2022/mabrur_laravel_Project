@@ -2,6 +2,8 @@
 
 // routes/api.php
 
+use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,11 +48,37 @@ Route::post('/place-order', function (Request $request) {
         'upazila' => 'required|string|max:255',
         'address' => 'required|string|max:500',
     ]);
+ 
+   
 
-    // Process the order here (e.g., save to database, send confirmation, etc.)
+    $order = new Order();
+    $order->name = $validatedData['name'];
+    $order->mobile = $validatedData['mobile'];
+    $order->district = $validatedData['district'];
+    $order->upazila = $validatedData['upazila'];
+    $order->address = $validatedData['address'];
+    $order->save();
+
+    // make the entry for order_products table
+    $length = count($validatedData['products']);
+
+    for($i = 0; $i< $length; $i++) {
+        $orderProduct = new OrderProduct();
+        $orderProduct->order_id = $order->id;
+        $orderProduct->product_id = $validatedData['products'][$i]['id'];
+        $orderProduct->quantity = $validatedData['products'][$i]['quantity'];
+        $orderProduct->save();
+    }
 
     return response()->json([
         'message' => 'অর্ডার সফলভাবে সম্পন্ন হয়েছে!',
-        'orderDetails' => $validatedData,
+        'order' => [
+            'id' => $order->id,
+            'name' => $order->name,
+            'district' => $order->district,
+            'upazila' => $order->upazila,
+            'address' => $order->address,
+        ],
+        'validatedData' => $validatedData,
     ]);
 });

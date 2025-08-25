@@ -587,14 +587,16 @@ const ShippingAddress = ({
     const placeOrder = async () => {
         if (isOrdering) return; // Prevent multiple submissions
         try {
-            console.log({
-                district,
-                upazila,
-                mobile,
-                address,
-                name,
-                products: makeOrderIdAndQuantities(),
-            });
+            console.log(
+                JSON.stringify({
+                    district,
+                    upazila,
+                    mobile,
+                    address,
+                    name,
+                    products: makeOrderIdAndQuantities(),
+                })
+            );
             setIsOrdering(true);
             if (!district || !upazila || !mobile || !address) {
                 setError("❌ সব ঘর পূরণ করা আবশ্যক।");
