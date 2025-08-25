@@ -562,7 +562,17 @@ const calculateShippingCharge = (district) => {
     });
 
     if (district === "Dhaka") {
-        return 60;
+        const totalWeightInGram = totalWeight * 1000;
+        if (totalWeightInGram <= 150) {
+            return 50;
+        } else if (totalWeightInGram <= 500) {
+            return 60;
+        }
+        totalWeight = Math.ceil(totalWeight);
+        if (totalWeight > 1) {
+            return 70 + (totalWeight - 1) * 20;
+        }
+        return 70;
     }
 
     totalWeight = Math.ceil(totalWeight);
@@ -925,7 +935,7 @@ export default function Cart({ isOpen }) {
                             <hr />
                         </div>
                         <div className="flex justify-between   border-b border-white ">
-                            <p>শিপিং চার্জ: </p>
+                            <p>ডেলিভারি চার্জ: </p>
                             <span className="">
                                 {calculateShippingCharge(district)} টাকা
                             </span>
