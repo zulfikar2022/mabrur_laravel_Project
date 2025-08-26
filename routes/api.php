@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 function shippingChargeCalculator($products, $district){
@@ -111,4 +112,41 @@ Route::post('/place-order', function (Request $request) {
             'address' => $order->address,
         ],
     ]);
+});
+
+
+// ?status={status}&order_id={order_id}
+Route::get('/admin/change-status', function (Request $request) {
+    // dd("request is received");
+    // $user = $request->user();
+    $user = Auth::user();
+
+    if ($user && $user?->is_admin) { //TODO: Have to invert the logic
+        return response()->json(['error' => 'Unauthorized', 'success' => false], 401);
+    }
+
+    $status = $request->query('status');
+    $order_id = $request->query('order_id');
+
+    $validStatuses = ['is_confirmed', 'is_shipped', 'is_paid', 'is_deleted'];
+    if (!in_array($status, $validStatuses)) {
+        return response()->json(['error' => 'Invalid status', 'success' => false], 400);
+    }
+    // user will not be able to change is_deleted status to false if it is true
+    $order = Order::find($order_id);
+    if ($status === 'is_deleted') {
+        // $order = Order::find($order_id);
+        if ($order && $order?->is_deleted) {
+            return response()->json(['message' => 'Cannot change is_deleted status back to false', 'success' => false], 400);
+        }
+    }
+
+    if($order && $order?->$status === true) {
+        return response()->json(['message' => 'Order not found or status is already changed', 'success' => false], 404);
+    }
+
+    $order->$status = true;
+    $order->save();
+
+    return response()->json(['message' => 'Order status updated successfully', 'order' => $order, 'success' => true], 200);
 });

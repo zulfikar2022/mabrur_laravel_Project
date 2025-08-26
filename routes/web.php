@@ -19,15 +19,15 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/add-product', function () {
-    return Inertia::render('AddProduct', [
-    ]);
-});
+// Route::get('/add-product', function () {
+//     return Inertia::render('AddProduct', [
+//     ]);
+// });
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render(component: 'Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render(component: 'Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // products related routes ADMIN ROUTES
-Route::resource('products', ProductController::class)->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware(['auth', 'verified', ]);
+Route::resource('products', ProductController::class)->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware(['auth']);
 
 // products related routes PUBLIC ROUTES
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
@@ -81,7 +81,7 @@ Route::get('/admin/products', function(){
         'products' => $products,
         'user'=> $user
     ]);
-})->name('admin.products');
+})->name('admin.products')->middleware(['auth' ]);
 
 // testing route
 Route::get('/phpinfo', function () {

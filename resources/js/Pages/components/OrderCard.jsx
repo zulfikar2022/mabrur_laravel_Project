@@ -16,6 +16,7 @@ export default function OrderCard({ order }) {
                 products={order?.products}
             />
             <OrderStatusCard
+                order_id={order?.order_info?.id}
                 is_confirmed={is_confirmed}
                 is_paid={is_paid}
                 is_shipped={is_shipped}

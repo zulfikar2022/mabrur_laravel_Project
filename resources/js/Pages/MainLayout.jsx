@@ -4,7 +4,6 @@ import { FaCartShopping } from "react-icons/fa6";
 import Cart from "./components/Cart";
 import { useState } from "react";
 
-
 export default function MainLayout({ children, user, title }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const handleDrawerToggle = (e) => {
@@ -24,30 +23,84 @@ export default function MainLayout({ children, user, title }) {
                 <Navbar />
             </header>
             <main className="container mx-auto px-4 py-8 h-full">
-                {!user?.isAdmin && <div className="drawer drawer-end z-50">  {/* TODO: have to invert the logic  */}
-                    <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-                    <div className="drawer-content">
-                        {/* Page content here */}
-                        <label htmlFor="my-drawer-4" className="drawer-button text-white my-2 btn border-transparent bg-blue-600">অ্যাডমিন প্যানেল</label>
+                {!user?.isAdmin && (
+                    <div className="drawer drawer-end z-50">
+                        {" "}
+                        {/* TODO: have to invert the logic  */}
+                        <input
+                            id="my-drawer-4"
+                            type="checkbox"
+                            className="drawer-toggle"
+                        />
+                        <div className="drawer-content">
+                            {/* Page content here */}
+                            <label
+                                htmlFor="my-drawer-4"
+                                className="drawer-button text-white my-2 btn border-transparent bg-blue-600"
+                            >
+                                অ্যাডমিন প্যানেল
+                            </label>
+                        </div>
+                        <div className="drawer-side">
+                            <label
+                                htmlFor="my-drawer-4"
+                                aria-label="close sidebar"
+                                className="drawer-overlay bg-red-50"
+                            ></label>
+                            <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                                <p className="font-bold text-lg mt-4">
+                                    প্রোডাক্ট ম্যানেজমেন্ট
+                                </p>
+                                <li>
+                                    <Link href={route("products.create")}>
+                                        প্রোডাক্ট যুক্ত করুন
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={route("admin.products")}>
+                                        সকল প্রোডাক্ট দেখুন
+                                    </Link>
+                                </li>
+                                <p className="font-bold text-lg mt-4">
+                                    অর্ডার ম্যানেজমেন্ট
+                                </p>
+                                <li>
+                                    <Link href={route("new-order")}>
+                                        নতুন অর্ডারসমূহ
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={route("confirmed-order")}>
+                                        কনফার্মড অর্ডারসমূহ
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div className="drawer-side">
-                        <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay bg-red-50"></label>
-                        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-                            <li><Link href={route('products.create')}>প্রোডাক্ট যুক্ত করুন</Link></li>
-                            <li><Link href={route('admin.products')}>সকল প্রোডাক্ট দেখুন</Link></li>
-                        </ul>
-                    </div>
-                </div>}
+                )}
 
                 <div className="drawer drawer-end">
-                    <input onChange={handleDrawerToggle} id="my-drawer-5" type="checkbox" className="drawer-toggle" />
+                    <input
+                        onChange={handleDrawerToggle}
+                        id="my-drawer-5"
+                        type="checkbox"
+                        className="drawer-toggle"
+                    />
                     <div className="drawer-content">
                         {/* Page content here */}
-                        <label htmlFor="my-drawer-5" className="drawer-button btn btn-primary bg-blue-600"><FaCartShopping />
+                        <label
+                            htmlFor="my-drawer-5"
+                            className="drawer-button btn btn-primary bg-blue-600"
+                        >
+                            <FaCartShopping />
                         </label>
                     </div>
                     <div className="drawer-side z-50">
-                        <label htmlFor="my-drawer-5" aria-label="close sidebar" className="drawer-overlay"></label>
+                        <label
+                            htmlFor="my-drawer-5"
+                            aria-label="close sidebar"
+                            className="drawer-overlay"
+                        ></label>
                         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 bg-blue-600">
                             <Cart isOpen={isDrawerOpen} />
                         </ul>
@@ -56,7 +109,9 @@ export default function MainLayout({ children, user, title }) {
                 {children}
             </main>
             <footer>
-                <p className="text-black text-center">&copy; 2023 My E-commerce Site</p>
+                <p className="text-black text-center">
+                    &copy; 2023 My E-commerce Site
+                </p>
             </footer>
         </div>
     );

@@ -75,8 +75,56 @@ Route::get("/admin/new-orders", function(){
         
     ]);
     
-})->name('new-order');
+})->name('new-order')->middleware(['auth' ]);
 
+Route::get('/admin/confirmed-orders', function(){
+    if(isAdmin()){ // TODO: Have to invet the logic
+        return Inertia::render("Unauthorized", [
+            'user' => Auth::user()
+        ]);
+    }
+
+    $orders = Order::where('is_confirmed', true)
+    ->where('is_deleted', false)
+    ->where('is_shipped', false)
+    ->where('is_returned_back', false)
+    ->where('is_paid', false)
+    ->orderBy('id', 'desc')
+    ->get();
+
+    
+   
+    $orderDetails = getOrderDetails($orders);
+    return Inertia::render("order_managements/ConfirmedOrders", [
+        'user' => Auth::user(),
+        'orderDetails'=> $orderDetails,
+    ]); 
+})->name('confirmed-order')->middleware(['auth']);
+
+
+Route::get('/admin/shipped-orders', function(){
+    if(isAdmin()){ // TODO: Have to invet the logic
+        return Inertia::render("Unauthorized", [
+            'user' => Auth::user()
+        ]);
+    }
+
+    $orders = Order::where('is_confirmed', true)
+    ->where('is_deleted', false)
+    ->where('is_shipped', true)
+    ->where('is_returned_back', false)
+    ->where('is_paid', false)
+    ->orderBy('id', 'desc')
+    ->get();
+
+    
+   
+    $orderDetails = getOrderDetails($orders);
+    return Inertia::render("order_managements/ShippedOrders", [
+        'user' => Auth::user(),
+        'orderDetails'=> $orderDetails,
+    ]); 
+})->name('shipped-order')->middleware(['auth']);
 
 
 ?>
