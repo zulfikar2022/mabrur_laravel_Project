@@ -13,19 +13,13 @@ function isAdmin(){
     return $user?->isAdmin;
 }
 
-Route::get("/admin/new-orders", function(){
-    if(isAdmin()){ // TODO: Have to invet the logic
-        return Inertia::render("Unauthorized", [
-            'user' => Auth::user()
-        ]);
-    }
-
-    $orders = Order::where('is_confirmed', false)->where('is_deleted', false)->where('is_shipped', false)->where('is_returned_back', false)->where('is_paid', false)->get();
+function getOrderDetails($orders){
+     $orderDetails = [];
     
-    $orderDetails = [];
    for($i = 0; $i < count($orders); $i++){
     $order = $orders[$i];
     $mediator = OrderProduct::where('order_id', $order->id)->get()->toArray();
+   
 
     $product_ids = [];
     for($j = 0; $j < count(value: $mediator); $j++){
@@ -45,18 +39,42 @@ Route::get("/admin/new-orders", function(){
     }
 
 
-    array_push($orderDetails, $product_with_quantity);
+    // array_push($orderDetails, $product_with_quantity);
+    $orderDetails[] = [
+        'order_info' => $order,
+        'products' => $product_with_quantity,
+        'shipping_charge' => $order->delivery_charge,
+        'total_amount' => $order->total_price,
+        'total_payable_amount' => $order->delivery_charge + $order->total_price,
+    ];
    }
+   return $orderDetails;
+}
 
-//    dd($orderDetails);
+Route::get("/admin/new-orders", function(){
+    if(isAdmin()){ // TODO: Have to invet the logic
+        return Inertia::render("Unauthorized", [
+            'user' => Auth::user()
+        ]);
+    }
 
-    return Inertia::render("NewOrders", [
+    $orders = Order::where('is_confirmed', false)
+    ->where('is_deleted', false)
+    ->where('is_shipped', false)
+    ->where('is_returned_back', false)
+    ->where('is_paid', false)
+    ->orderBy('id', 'desc')
+    ->get();
+
+    
+   
+    $orderDetails = getOrderDetails($orders);
+    return Inertia::render("order_managements/NewOrders", [
         'user' => Auth::user(),
         'orderDetails'=> $orderDetails,
         
     ]);
-    //  return Inertia::render('AddProduct', [
-    // ]);
+    
 })->name('new-order');
 
 
