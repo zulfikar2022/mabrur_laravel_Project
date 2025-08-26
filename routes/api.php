@@ -119,6 +119,9 @@ Route::post('/place-order', function (Request $request) {
 Route::get('/admin/change-status', function (Request $request) {
     // dd("request is received");
     // $user = $request->user();
+    $routeName = request()->route()->getName();
+    // dd($routeName);
+
     $user = Auth::user();
 
     if ($user && $user?->is_admin) { //TODO: Have to invert the logic

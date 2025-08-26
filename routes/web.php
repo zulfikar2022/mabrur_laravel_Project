@@ -29,17 +29,19 @@ Route::get('/', function () {
 //     return Inertia::render(component: 'Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 // products related routes ADMIN ROUTES
 Route::resource('products', ProductController::class)->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware(['auth']);
 
-// products related routes PUBLIC ROUTES
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show')->middleware(['auth']);
+
+// products related routes PUBILC  ROUTES
+
 
 Route::get('/products', function(){
     $products = Product::where('is_deleted', false)->get();
@@ -83,10 +85,7 @@ Route::get('/admin/products', function(){
     ]);
 })->name('admin.products')->middleware(['auth' ]);
 
-// testing route
-Route::get('/phpinfo', function () {
-    phpinfo();
-});
+
 
 
 

@@ -620,6 +620,10 @@ const ShippingAddress = ({
 
             const data = await response.json();
             console.log("Order placed successfully:", data);
+            localStorage.setItem(
+                "mabrur_order_items",
+                JSON.stringify(data?.order)
+            );
         } catch (error) {
             setError("❌ অর্ডার দিতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
 

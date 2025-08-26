@@ -15,11 +15,21 @@ export default function MainLayout({ children, user, title }) {
         }
     };
     return (
-        <div className="min-h-screen min-w-full bg-gray-100 ">
+        <div className="min-h-screen min-w-full bg-gray-100 text-black">
             <Head>
                 <title>{title}</title>
             </Head>
-            <header>
+            <header className="sticky top-0 flex items-center justify-between bg-blue-600 text-white p-4 shadow-md z-40">
+                <div className="drawer-content ">
+                    <label
+                        htmlFor="my-drawer-5"
+                        className="drawer-button btn btn-primary bg-white text-blue-600 border-transparent"
+                    >
+                        <FaCartShopping />
+                        <p> আপনার কার্ট</p>
+                    </label>
+                </div>
+                <div></div>
                 <Navbar />
             </header>
             <main className="container mx-auto px-4 py-8 h-full">
@@ -32,15 +42,17 @@ export default function MainLayout({ children, user, title }) {
                             type="checkbox"
                             className="drawer-toggle"
                         />
-                        <div className="drawer-content">
-                            {/* Page content here */}
-                            <label
-                                htmlFor="my-drawer-4"
-                                className="drawer-button text-white my-2 btn border-transparent bg-blue-600"
-                            >
-                                অ্যাডমিন প্যানেল
-                            </label>
-                        </div>
+                        {user && (
+                            <div className="drawer-content z-0">
+                                {/* Page content here */}
+                                <label
+                                    htmlFor="my-drawer-4"
+                                    className="drawer-button text-white my-2 btn border-transparent bg-blue-600"
+                                >
+                                    অ্যাডমিন প্যানেল
+                                </label>
+                            </div>
+                        )}
                         <div className="drawer-side">
                             <label
                                 htmlFor="my-drawer-4"
@@ -101,15 +113,14 @@ export default function MainLayout({ children, user, title }) {
                         type="checkbox"
                         className="drawer-toggle"
                     />
-                    <div className="drawer-content">
-                        {/* Page content here */}
+                    {/* <div className="drawer-content ">
                         <label
                             htmlFor="my-drawer-5"
                             className="drawer-button btn btn-primary bg-blue-600"
                         >
                             <FaCartShopping />
                         </label>
-                    </div>
+                    </div> */}
                     <div className="drawer-side z-50">
                         <label
                             htmlFor="my-drawer-5"

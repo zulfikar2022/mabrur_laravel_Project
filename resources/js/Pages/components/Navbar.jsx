@@ -5,7 +5,7 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="sticky top-0 bg-white shadow z-50">
+        <nav className="sticky top-0 bg-white shadow z-50 rounded">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
                     {/* Logo */}
@@ -43,6 +43,12 @@ export default function Navbar() {
                             className="hover:text-blue-600 text-gray-700 font-medium "
                         >
                             বাদাম
+                        </Link>
+                        <Link
+                            href={route("my-order")}
+                            className="hover:text-blue-600 text-gray-700 font-medium "
+                        >
+                            আমার অর্ডার
                         </Link>
                         <Link
                             href={route("home")}
@@ -105,7 +111,7 @@ export default function Navbar() {
                 <div className="md:hidden px-4 pb-4 space-y-2">
                     <Link
                         href={route("home")}
-                        className="block text-gray-700 hover:text-blue-600 font-medium"
+                        className="block text-gray-700 hover:text-blue-600 underline font-medium"
                     >
                         হোম
                     </Link>
@@ -117,7 +123,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                         href={route("home")}
-                        className="block hover:text-blue-600 font-medium underline text-blue-600"
+                        className="block hover:text-blue-600 font-medium  text-blue-600"
                     >
                         বাদাম
                     </Link>

@@ -109,8 +109,7 @@ Route::get('/admin/shipped-orders', function(){
         ]);
     }
 
-    $orders = Order::where('is_confirmed', true)
-    ->where('is_deleted', false)
+    $orders = Order::where('is_deleted', false)
     ->where('is_shipped', true)
     ->where('is_returned_back', false)
     ->where('is_paid', false)
@@ -167,4 +166,8 @@ Route::get('/admin/paid-orders', function(){
     ]); 
 })->name('paid-order')->middleware(['auth']);
 
-?>
+Route::get('/my-order', function(){
+    return Inertia::render("MyOrder", [
+        'user' => Auth::user()
+    ]); 
+})->name('my-order');

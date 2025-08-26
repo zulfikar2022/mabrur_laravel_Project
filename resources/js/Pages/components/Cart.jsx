@@ -580,7 +580,7 @@ const calculateShippingCharge = (district) => {
     if (totalWeight > 1) {
         return 130 + (totalWeight - 1) * 20;
     }
-    return 120;
+    return 130;
 };
 
 export default function Cart({ isOpen }) {
@@ -658,9 +658,6 @@ export default function Cart({ isOpen }) {
 
         // window.location.reload();
     };
-
-    console.log(renderingController);
-    console.log(cartItems);
 
     return (
         <div className="text-white">

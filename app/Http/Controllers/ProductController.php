@@ -81,9 +81,14 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $user = Auth::user();
-        return Inertia::render('UpdateProduct', [
+        if(!$user->is_admin){ //TODO: Have to invert the logic
+            return Inertia::render('UpdateProduct', [
             'product' => $product,
             'user'=> $user
+        ]);
+        }
+        return Inertia::render('Unauthorized', [
+            'user' => $user
         ]);
     }
 
