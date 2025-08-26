@@ -74,6 +74,21 @@ export default function MainLayout({ children, user, title }) {
                                         কনফার্মড অর্ডারসমূহ
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link href={route("shipped-order")}>
+                                        কুরিয়ারকৃত অর্ডারসমূহ
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={route("paid-order")}>
+                                        পেইড অর্ডারসমূহ
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={route("deleted-order")}>
+                                        বাতিলকৃত অর্ডারসমূহ
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     </div>

@@ -126,5 +126,45 @@ Route::get('/admin/shipped-orders', function(){
     ]); 
 })->name('shipped-order')->middleware(['auth']);
 
+Route::get('/admin/deleted-orders', function(){
+    if(isAdmin()){ // TODO: Have to invet the logic
+        return Inertia::render("Unauthorized", [
+            'user' => Auth::user()
+        ]);
+    }
+
+    $orders = Order::where('is_deleted', true)
+    ->orderBy('id', 'desc')
+    ->get();
+
+    
+   
+    $orderDetails = getOrderDetails($orders);
+    return Inertia::render("order_managements/DeletedOrders", [
+        'user' => Auth::user(),
+        'orderDetails'=> $orderDetails,
+    ]); 
+})->name('deleted-order')->middleware(['auth']);
+
+Route::get('/admin/paid-orders', function(){
+    if(isAdmin()){ // TODO: Have to invet the logic
+        return Inertia::render("Unauthorized", [
+            'user' => Auth::user()
+        ]);
+    }
+
+    $orders = Order::where('is_paid', true)
+    ->where('is_deleted', false)
+    ->orderBy('id', 'desc')
+    ->get();
+
+    
+   
+    $orderDetails = getOrderDetails($orders);
+    return Inertia::render("order_managements/PaidOrders", [
+        'user' => Auth::user(),
+        'orderDetails'=> $orderDetails,
+    ]); 
+})->name('paid-order')->middleware(['auth']);
 
 ?>
