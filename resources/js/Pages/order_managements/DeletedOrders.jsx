@@ -1,7 +1,12 @@
 import OrderCard from "../components/OrderCard";
+import Pagination from "../components/Pagination";
 import MainLayout from "../MainLayout";
 
-export default function DeletedOrders({ orderDetails: orders, user }) {
+export default function DeletedOrders({
+    orderDetails: orders,
+    user,
+    paginationData,
+}) {
     return (
         <MainLayout user={user} title="Deleted Orders">
             <h2 className="text-center text-2xl mb-2">বাতিলকৃত অর্ডারসমূহ</h2>
@@ -14,6 +19,10 @@ export default function DeletedOrders({ orderDetails: orders, user }) {
             ) : (
                 <p className="text-center text-red-800">কোনো অর্ডার নেই</p>
             )}
+            <Pagination
+                paginationData={paginationData}
+                routePath="deleted-orders"
+            />
         </MainLayout>
     );
 }

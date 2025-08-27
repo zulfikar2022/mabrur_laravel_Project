@@ -1,7 +1,12 @@
 import OrderCard from "../components/OrderCard";
+import Pagination from "../components/Pagination";
 import MainLayout from "../MainLayout";
 
-export default function OrderStatusCard({ orderDetails: orders, user }) {
+export default function OrderStatusCard({
+    orderDetails: orders,
+    user,
+    paginationData,
+}) {
     // console.log(orderDetails);
     return (
         <MainLayout user={user} title="Confirmed Orders">
@@ -15,6 +20,10 @@ export default function OrderStatusCard({ orderDetails: orders, user }) {
             ) : (
                 <p className="text-center text-red-800">কোনো অর্ডার নেই</p>
             )}
+            <Pagination
+                paginationData={paginationData}
+                routePath="confirmed-orders"
+            />
         </MainLayout>
     );
 }

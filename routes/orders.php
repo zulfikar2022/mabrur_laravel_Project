@@ -2,6 +2,7 @@
 // routes for new orders
 
 use App\Http\Controllers\DeliveryChargeController;
+use App\Http\Controllers\OrderController;
 use App\Models\DeliveryCharge;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -53,134 +54,31 @@ function getOrderDetails($orders){
    return $orderDetails;
 }
 
-Route::get("/admin/new-orders", function(){
-    if(isAdmin()){ // TODO: Have to invet the logic
-        return Inertia::render("Unauthorized", [
-            'user' => Auth::user()
-        ]);
-    }
+function getPaginatedData($orders){
+    return [
+        'total' => $orders->total(),
+        'per_page' => $orders->perPage(),
+        'current_page' => $orders->currentPage(),
+        'last_page' => $orders->lastPage(),
+        'from' => $orders->firstItem(),
+        'to' => $orders->lastItem(),
+    ];
+}
 
-    $orders = Order::where('is_confirmed', false)
-    ->where('is_deleted', false)
-    ->where('is_shipped', false)
-    ->where('is_returned_back', false)
-    ->where('is_paid', false)
-    ->orderBy('id', 'desc')
-    ->get();
+Route::get("/admin/new-orders", [OrderController::class, 'getNewOrders'])->name('new-order')->middleware(['auth']);
 
-    
-   
-    $orderDetails = getOrderDetails($orders);
-    return Inertia::render("order_managements/NewOrders", [
-        'user' => Auth::user(),
-        'orderDetails'=> $orderDetails,
-        
-    ]);
-    
-})->name('new-order')->middleware(['auth' ]);
-
-Route::get('/admin/confirmed-orders', function(){
-    if(isAdmin()){ // TODO: Have to invet the logic
-        return Inertia::render("Unauthorized", [
-            'user' => Auth::user()
-        ]);
-    }
-
-    $orders = Order::where('is_confirmed', true)
-    ->where('is_deleted', false)
-    ->where('is_shipped', false)
-    ->where('is_returned_back', false)
-    ->where('is_paid', false)
-    ->orderBy('id', 'desc')
-    ->get();
-
-    
-   
-    $orderDetails = getOrderDetails($orders);
-    return Inertia::render("order_managements/ConfirmedOrders", [
-        'user' => Auth::user(),
-        'orderDetails'=> $orderDetails,
-    ]); 
-})->name('confirmed-order')->middleware(['auth']);
+Route::get('/admin/confirmed-orders', [OrderController::class, 'getConfirmedOrders'])->name('confirmed-order')->middleware(['auth']);
 
 
-Route::get('/admin/shipped-orders', function(){
-    if(isAdmin()){ // TODO: Have to invet the logic
-        return Inertia::render("Unauthorized", [
-            'user' => Auth::user()
-        ]);
-    }
+Route::get('/admin/shipped-orders', [OrderController::class, 'getShippedOrders'])->name('shipped-order')->middleware(['auth']);
 
-    $orders = Order::where('is_deleted', false)
-    ->where('is_shipped', true)
-    ->where('is_returned_back', false)
-    ->where('is_paid', false)
-    ->orderBy('id', 'desc')
-    ->get();
+Route::get('/admin/deleted-orders', [OrderController::class, 'getDeleteOrders'])->name('deleted-order')->middleware(['auth']);
 
-    
-   
-    $orderDetails = getOrderDetails($orders);
-    return Inertia::render("order_managements/ShippedOrders", [
-        'user' => Auth::user(),
-        'orderDetails'=> $orderDetails,
-    ]); 
-})->name('shipped-order')->middleware(['auth']);
+Route::get('/admin/paid-orders', [OrderController::class, 'getPaidOrders'])->name('paid-order')->middleware(['auth']);
 
-Route::get('/admin/deleted-orders', function(){
-    if(isAdmin()){ // TODO: Have to invet the logic
-        return Inertia::render("Unauthorized", [
-            'user' => Auth::user()
-        ]);
-    }
+Route::get('/admin/all-orders', [OrderController::class, 'getAllOrders'])->name('all-order')->middleware(['auth']);
 
-    $orders = Order::where('is_deleted', true)
-    ->orderBy('id', 'desc')
-    ->get();
 
-    
-   
-    $orderDetails = getOrderDetails($orders);
-    return Inertia::render("order_managements/DeletedOrders", [
-        'user' => Auth::user(),
-        'orderDetails'=> $orderDetails,
-    ]); 
-})->name('deleted-order')->middleware(['auth']);
-
-Route::get('/admin/paid-orders', function(){
-    if(isAdmin()){ // TODO: Have to invet the logic
-        return Inertia::render("Unauthorized", [
-            'user' => Auth::user()
-        ]);
-    }
-
-    $orders = Order::where('is_paid', true)
-    ->where('is_deleted', false)
-    ->orderBy('id', 'desc')
-    ->get();
-
-    
-   
-    $orderDetails = getOrderDetails($orders);
-    return Inertia::render("order_managements/PaidOrders", [
-        'user' => Auth::user(),
-        'orderDetails'=> $orderDetails,
-    ]); 
-})->name('paid-order')->middleware(['auth']);
-
-Route::get('/admin/all-orders', function(){
-    if(isAdmin()){ //TODO: Have to invet the logic
-        return Inertia::render("Unauthorized", [
-            'user' => Auth::user()
-        ]);
-    }
-    $orders = Order::orderBy('id', 'desc')->get();
-    $orderDetails = getOrderDetails($orders);
-    return Inertia::render("order_managements/AllOrders", [
-        'user' => Auth::user(),
-        'orderDetails'=> $orderDetails,
-    ]); 
-})->name('all-order')->middleware(['auth']);
 
 Route::get('/my-order', function(){
     return Inertia::render("MyOrder", [

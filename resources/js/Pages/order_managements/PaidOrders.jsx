@@ -1,7 +1,12 @@
 import OrderCard from "../components/OrderCard";
+import Pagination from "../components/Pagination";
 import MainLayout from "../MainLayout";
 
-export default function PaidOrders({ orderDetails: orders, user }) {
+export default function PaidOrders({
+    orderDetails: orders,
+    user,
+    paginationData,
+}) {
     return (
         <MainLayout user={user} title="Paid Orders">
             <h2 className="text-center text-2xl mb-2">পেইড অর্ডারসমূহ</h2>
@@ -14,6 +19,10 @@ export default function PaidOrders({ orderDetails: orders, user }) {
             ) : (
                 <p className="text-center text-red-800">কোনো অর্ডার নেই</p>
             )}
+            <Pagination
+                paginationData={paginationData}
+                routePath="paid-orders"
+            />
         </MainLayout>
     );
 }
