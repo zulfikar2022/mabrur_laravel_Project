@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class DeliveryCharge extends Model
 {
     //
+
+    public static function getLatestDeliveryCharge()
+    {
+        return self::latest()->first();
+    }
 }

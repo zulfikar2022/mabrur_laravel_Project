@@ -568,7 +568,6 @@ const makeOrderIdAndQuantities = () => {
 
 const ShippingAddress = ({
     district,
-    setDistrict,
     upazila,
     setUpazila,
     mobile,
@@ -587,16 +586,6 @@ const ShippingAddress = ({
     const placeOrder = async () => {
         if (isOrdering) return; // Prevent multiple submissions
         try {
-            console.log(
-                JSON.stringify({
-                    district,
-                    upazila,
-                    mobile,
-                    address,
-                    name,
-                    products: makeOrderIdAndQuantities(),
-                })
-            );
             setIsOrdering(true);
             if (!district || !upazila || !mobile || !address) {
                 setError("❌ সব ঘর পূরণ করা আবশ্যক।");
@@ -619,11 +608,15 @@ const ShippingAddress = ({
             });
 
             const data = await response.json();
-            console.log("Order placed successfully:", data);
             localStorage.setItem(
                 "mabrur_order_items",
                 JSON.stringify(data?.order)
             );
+            Swal.fire({
+                title: "অর্ডার গৃহীত হয়েছে",
+                text: "আপনার অর্ডারটি গ্রহণ করা হয়েছে। সাথে থাকার জন্য ধন্যবাদ।",
+                icon: "success",
+            });
         } catch (error) {
             setError("❌ অর্ডার দিতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
 
@@ -635,7 +628,7 @@ const ShippingAddress = ({
 
     // ✅ Mobile number validation
     const validateMobile = (number) => {
-        const regex = /^01\d{9}$/; // must start with 01 and total 11 digits
+        const regex = /^01\d{9}$/;
         return regex.test(number);
     };
 
@@ -650,11 +643,6 @@ const ShippingAddress = ({
         }
 
         setError("");
-        Swal.fire({
-            title: "অর্ডার গৃহীত হয়েছে",
-            text: "আপনার অর্ডারটি গ্রহণ করা হয়েছে। সাথে থাকার জন্য ধন্যবাদ।",
-            icon: "success",
-        });
     };
     // জেলা, উপজেলা, মোবাইল নাম্বার
 

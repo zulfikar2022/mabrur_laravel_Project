@@ -4,6 +4,7 @@ import { MdKeyboardArrowRight, MdStorefront } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import ShippingAddress from "./ShippingAddress";
 import { BsCartCheckFill } from "react-icons/bs";
+import { useForm } from "@inertiajs/react";
 
 const districtsWithUpazilas = {
     Bagerhat: [
@@ -555,6 +556,19 @@ const calculateShippingCharge = (district) => {
     const productsFromLocalStorage = JSON.parse(
         localStorage.getItem("mabrur_cart_items")
     );
+    let deliveryCharges = JSON.parse(
+        localStorage.getItem("mabrur_delivery_charge")
+    );
+    // console.log("Delivery Charges from localStorage: ", deliveryCharges);
+
+    let {
+        dhaka_one_gram_to_150_gram: dhakaOneGramTo150Gram,
+        dhaka_151_gram_to_500_gram: dhaka151GramTo500Gram,
+        dhaka_first_kg: dhakaFirstKg,
+        dhaka_additional_kgs: dhakaAdditionalKgs,
+        outside_dhaka_first_kg: outsideDhakaFirstKg,
+        outside_dhaka_additional_kgs: outsideDhakaAdditionalKgs,
+    } = deliveryCharges;
 
     let totalWeight = 0;
     productsFromLocalStorage.forEach((product, index) => {
@@ -564,26 +578,29 @@ const calculateShippingCharge = (district) => {
     if (district === "Dhaka") {
         const totalWeightInGram = totalWeight * 1000;
         if (totalWeightInGram <= 150) {
-            return 50;
+            return dhakaOneGramTo150Gram;
         } else if (totalWeightInGram <= 500) {
-            return 60;
+            return dhaka151GramTo500Gram;
         }
         totalWeight = Math.ceil(totalWeight);
         if (totalWeight > 1) {
-            return 70 + (totalWeight - 1) * 20;
+            return dhakaFirstKg + (totalWeight - 1) * dhakaAdditionalKgs;
         }
-        return 70;
+        return dhakaFirstKg;
     }
 
     totalWeight = Math.ceil(totalWeight);
 
     if (totalWeight > 1) {
-        return 130 + (totalWeight - 1) * 20;
+        return (
+            outsideDhakaFirstKg + (totalWeight - 1) * outsideDhakaAdditionalKgs
+        );
     }
-    return 130;
+    return outsideDhakaFirstKg;
 };
 
 export default function Cart({ isOpen }) {
+    const { get } = useForm();
     const [cartItems, setCartItems] = useState([]);
     const [cartedProducts, setCartedProducts] = useState([]);
     const [quantitiesKg, setQuantitiesKg] = useState([]);
@@ -606,10 +623,12 @@ export default function Cart({ isOpen }) {
     const [renderingController, setRenderingController] = useState(false);
 
     function formatNumber(num) {
+        console.log("Inside from the formatNumber: ", num);
         if (!num) {
             return 0;
         }
-        return num % 1 === 0 ? num : Number(num.toFixed(2));
+        return num % 1 === 0 ? num : Number(num?.toFixed(2));
+        // return num;
     }
 
     const fetchCartItemsFromBackend = () => {
@@ -626,6 +645,17 @@ export default function Cart({ isOpen }) {
                 console.error("Error fetching cart items:", error);
             });
     };
+
+    useEffect(() => {
+        fetch(route("delivery-charge"))
+            .then((res) => res.json())
+            .then((data) => {
+                localStorage.setItem(
+                    "mabrur_delivery_charge",
+                    JSON.stringify(data)
+                );
+            });
+    }, []);
 
     useEffect(() => {
         if (isOpen) {
@@ -659,6 +689,7 @@ export default function Cart({ isOpen }) {
         // window.location.reload();
     };
 
+    console.log({ totalPrice });
     return (
         <div className="text-white">
             <div className="text-2xl font-bold flex items-center gap-2 mb-4">
@@ -669,7 +700,8 @@ export default function Cart({ isOpen }) {
                 </span>
             </div>
             <div className="">
-                {cartItems.map(function (item, index) {
+                {cartItems?.map(function (item, index) {
+                    console.log("Item from the cart: ", item);
                     const cartedItemIndividual = cartedProducts.find(
                         (p) => p.id === item.id
                     );
@@ -908,7 +940,7 @@ export default function Cart({ isOpen }) {
                             className="w-full border rounded p-2 text-black"
                         >
                             <option className="text-black" value="">
-                                -- Select District --
+                                -- আপনার জেলা নির্বাচন করুন --
                             </option>
                             {Object.keys(districtsWithUpazilas).map((d) => (
                                 <option
@@ -928,6 +960,7 @@ export default function Cart({ isOpen }) {
                             <p>পণ্যের মূল্য: </p>
                             <span className="">
                                 {formatNumber(totalPrice)} টাকা
+                                {/* {formatNumber(12)} টাকা */}
                             </span>
                             <hr />
                         </div>
@@ -944,7 +977,7 @@ export default function Cart({ isOpen }) {
                                 {formatNumber(
                                     totalPrice +
                                         calculateShippingCharge(district)
-                                )}{" "}
+                                )}
                                 টাকা
                             </span>
                             <hr />
@@ -973,7 +1006,6 @@ export default function Cart({ isOpen }) {
                 {makeOrder && (
                     <ShippingAddress
                         district={district}
-                        setDistrict={setDistrict}
                         upazila={upazila}
                         setUpazila={setUpazila}
                         mobile={mobile}

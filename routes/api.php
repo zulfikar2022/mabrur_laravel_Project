@@ -2,6 +2,7 @@
 
 // routes/api.php
 
+use App\Models\DeliveryCharge;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -15,25 +16,33 @@ function shippingChargeCalculator($products, $district){
         $totalWeight += $product['quantity'];
     }
 
+    $deliveryCharge = DeliveryCharge::getLatestDeliveryCharge();
+    $dhaka_first_kg = $deliveryCharge->dhaka_first_kg;
+    $dhaka_additional_kgs = $deliveryCharge->dhaka_additional_kgs;
+    $outside_dhaka_first_kg = $deliveryCharge->outside_dhaka_first_kg;
+    $outside_dhaka_additional_kgs = $deliveryCharge->outside_dhaka_additional_kgs;
+    $dhaka_one_gram_to_150_gram = $deliveryCharge->dhaka_one_gram_to_150_gram;
+    $dhaka_151_gram_to_500_gram = $deliveryCharge->dhaka_151_gram_to_500_gram;
+
     switch ($district) {
         case 'Dhaka':
             $totalWeightInGram = $totalWeight * 1000;
             if ($totalWeightInGram <= 150) {
-                return 50;
+                return $dhaka_one_gram_to_150_gram;
             } elseif ($totalWeightInGram <= 500) {
-                return 60;
+                return $dhaka_151_gram_to_500_gram;
             }
             $ceiledWeight = ceil($totalWeight);
             if ($ceiledWeight > 1) {
-                return 70 + ($ceiledWeight - 1) * 20;
+                return $dhaka_first_kg + ($ceiledWeight - 1) * $dhaka_additional_kgs;
             } else {
-                return 70;
+                return $dhaka_first_kg;
             }
         default:
             if ($totalWeight > 1) {
-                return 130 + (ceil($totalWeight) - 1) * 20;
+                return $outside_dhaka_first_kg + (ceil($totalWeight) - 1) * $outside_dhaka_additional_kgs;
             } else {
-                return 130;
+                return $outside_dhaka_first_kg;
             }
     }
 }
@@ -115,7 +124,7 @@ Route::post('/place-order', function (Request $request) {
 });
 
 
-// ?status={status}&order_id={order_id}
+
 Route::get('/admin/change-status', function (Request $request) {
     // dd("request is received");
     // $user = $request->user();
@@ -153,3 +162,9 @@ Route::get('/admin/change-status', function (Request $request) {
 
     return response()->json(['message' => 'Order status updated successfully', 'order' => $order, 'success' => true], 200);
 });
+
+Route::get('/delivery-charge', function (Request $request) {
+    $deliveryCharge = DeliveryCharge::getLatestDeliveryCharge();
+    // dd($deliveryCharge);
+    return response()->json($deliveryCharge);
+})->name('delivery-charge');

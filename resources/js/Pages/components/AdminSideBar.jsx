@@ -49,8 +49,13 @@ export default function AdminSideBar() {
                     কুরিয়ার চার্জ ম্যানেজমেন্ট
                 </p>
                 <li>
-                    <Link href={route("deleted-order")}>
-                        বাতিলকৃত অর্ডারসমূহ
+                    <Link href={route("show-delivery-charge")}>
+                        ডেলিভারি চার্জ দেখুন
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route("add-new-delivery-charge")}>
+                        নতুন ডেলিভারি চার্জ যুক্ত করুন
                     </Link>
                 </li>
             </ul>

@@ -1,6 +1,8 @@
 <?php
 // routes for new orders
 
+use App\Http\Controllers\DeliveryChargeController;
+use App\Models\DeliveryCharge;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -185,3 +187,22 @@ Route::get('/my-order', function(){
         'user' => Auth::user()
     ]); 
 })->name('my-order');
+
+
+
+// Delivery charge related routes will be here
+Route::get('/admin/show-delivery-charge', [DeliveryChargeController::class, 'showDeliveryCharge'])->middleware(['auth'])->name('show-delivery-charge');
+
+
+
+Route::get('/admin/add-new-delivery-charge', [DeliveryChargeController::class, 'addNewDeliveryChargeForm'])->middleware(['auth'])->name('add-new-delivery-charge');
+
+Route::post('/admin/save-delivery-charges', [DeliveryChargeController::class, 'saveDeliveryCharges'])->middleware(['auth'])->name('save-delivery-charge');
+
+
+// test route
+Route::get('/test', function(){
+    $data = DeliveryCharge::getLatestDeliveryCharge();
+    dd($data);
+    return $data;
+});
