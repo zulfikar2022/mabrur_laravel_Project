@@ -17,7 +17,7 @@ export default function Navbar() {
                             <div className="h-14 w-14 mr-2">
                                 <img
                                     className="overflow-hidden"
-                                    src="./images/logo.png"
+                                    src="/images/logo.png"
                                     alt="Logo"
                                 />
                             </div>

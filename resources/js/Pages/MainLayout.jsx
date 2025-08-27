@@ -32,7 +32,7 @@ export default function MainLayout({ children, user, title }) {
                 <div></div>
                 <Navbar />
             </header>
-            <main className="container mx-auto px-4 py-8 h-full">
+            <main className="container mx-auto px-4 py-8 h-full min-h-[80vh]">
                 {!user?.isAdmin && (
                     <div className="drawer drawer-end z-50">
                         {" "}
@@ -134,7 +134,9 @@ export default function MainLayout({ children, user, title }) {
                 </div>
                 {children}
             </main>
-            <footer>
+            {/* make the footer at the bottom of the page and no margin after the page and it will be at bottom for all the pages. In some pages where less contents are there it is coming up.  */}
+
+            <footer className="bg-gray-200 text-gray-700 p-4 mt-8 ">
                 <p className="text-black text-center">
                     &copy; 2023 My E-commerce Site
                 </p>
