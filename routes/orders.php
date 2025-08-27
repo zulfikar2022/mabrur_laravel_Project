@@ -166,6 +166,20 @@ Route::get('/admin/paid-orders', function(){
     ]); 
 })->name('paid-order')->middleware(['auth']);
 
+Route::get('/admin/all-orders', function(){
+    if(isAdmin()){ //TODO: Have to invet the logic
+        return Inertia::render("Unauthorized", [
+            'user' => Auth::user()
+        ]);
+    }
+    $orders = Order::orderBy('id', 'desc')->get();
+    $orderDetails = getOrderDetails($orders);
+    return Inertia::render("order_managements/AllOrders", [
+        'user' => Auth::user(),
+        'orderDetails'=> $orderDetails,
+    ]); 
+})->name('all-order')->middleware(['auth']);
+
 Route::get('/my-order', function(){
     return Inertia::render("MyOrder", [
         'user' => Auth::user()
