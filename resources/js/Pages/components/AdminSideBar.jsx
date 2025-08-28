@@ -6,9 +6,30 @@ export default function AdminSideBar() {
             <label
                 htmlFor="my-drawer-4"
                 aria-label="close sidebar"
-                className="drawer-overlay bg-red-50"
+                className="drawer-overlay"
             ></label>
             <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                <div className="flex justify-between items-center mb-4">
+                    <p></p>
+                    <label
+                        htmlFor="my-drawer-4"
+                        className="drawer-button  my-2 btn border-transparent bg-white text-red-600"
+                    >
+                        <svg
+                            className="h-6 w-6"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </label>
+                </div>
                 <p className="font-bold text-lg mt-4">প্রোডাক্ট ম্যানেজমেন্ট</p>
                 <li>
                     <Link href={route("products.create")}>

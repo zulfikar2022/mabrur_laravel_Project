@@ -1,9 +1,11 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import NavigationSideBar from "./NavigationSideBar";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const { url } = usePage();
+    console.log("Current URL:", url); // Debugging line to check the current URL
 
     return (
         <nav className="sticky top-0 bg-white shadow z-50 rounded">

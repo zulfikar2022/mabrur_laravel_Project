@@ -52,6 +52,13 @@ export default function NavigationSideBar() {
                 </Link>
                 <hr />
                 <Link
+                    href={route("my-order")}
+                    className="block pt-2 hover:text-blue-600 text-gray-700 font-medium text-xl"
+                >
+                    আমার অর্ডার
+                </Link>
+                <hr />
+                <Link
                     href={route("home")}
                     className="block pt-2 text-gray-700 hover:text-blue-600 font-medium text-xl"
                 >

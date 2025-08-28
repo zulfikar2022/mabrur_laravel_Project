@@ -692,12 +692,33 @@ export default function Cart({ isOpen }) {
     console.log({ totalPrice });
     return (
         <div className="text-white">
-            <div className="text-2xl font-bold flex items-center gap-2 mb-4">
+            <div className=" text-2xl font-bold flex justify-between items-center gap-2 mb-4">
                 {" "}
-                <span>আমার কার্ট</span>
-                <span>
-                    <BsCartCheckFill />
-                </span>
+                <div>
+                    <span>আমার কার্ট</span>
+                    <span>
+                        <BsCartCheckFill />
+                    </span>
+                </div>
+                <label
+                    htmlFor="my-drawer-5"
+                    aria-label="close sidebar"
+                    className="drawer-overlay btn border-transparent bg-white text-red-600"
+                >
+                    <svg
+                        className="h-6 w-6"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+                </label>
             </div>
             <div className="">
                 {cartItems?.map(function (item, index) {
