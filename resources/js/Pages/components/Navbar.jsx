@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/react";
 import { useState } from "react";
+import NavigationSideBar from "./NavigationSideBar";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -56,91 +57,41 @@ export default function Navbar() {
                         >
                             যোগাযোগ
                         </Link>
-                        {/* <Link
-                            href={route('home')}
-                            className="ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                        >
-                            Login
-                        </Link> */}
                     </div>
 
-                    {/* Hamburger */}
                     <div className="md:hidden flex items-center ml-auto">
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none"
-                        >
-                            {isOpen ? (
-                                // Close icon
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
+                        <div className="drawer drawer-end">
+                            <input
+                                id="my-drawer-6"
+                                type="checkbox"
+                                className="drawer-toggle"
+                            />
+                            <div className="drawer-content">
+                                {/* Page content here */}
+                                <label
+                                    htmlFor="my-drawer-6"
+                                    className="drawer-button btn btn-primary  bg-gray-200  text-blue-600 border-transparent"
                                 >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            ) : (
-                                // Menu icon
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                </svg>
-                            )}
-                        </button>
+                                    <svg
+                                        className="h-6 w-6"
+                                        stroke="currentColor"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                    </svg>
+                                </label>
+                            </div>
+                            <NavigationSideBar />
+                        </div>
                     </div>
                 </div>
             </div>
-
-            {/* Mobile Menu */}
-            {isOpen && (
-                <div className="md:hidden px-4 pb-4 space-y-2">
-                    <Link
-                        href={route("home")}
-                        className="block text-gray-700 hover:text-blue-600 underline font-medium"
-                    >
-                        হোম
-                    </Link>
-                    <Link
-                        href={route("home")}
-                        className="block py-2 hover:text-blue-600 font-medium text-gray-700"
-                    >
-                        খেজুর
-                    </Link>
-                    <Link
-                        href={route("home")}
-                        className="block hover:text-blue-600 font-medium  text-blue-600"
-                    >
-                        বাদাম
-                    </Link>
-                    <Link
-                        href={route("home")}
-                        className="block py-2 text-gray-700 hover:text-blue-600 font-medium"
-                    >
-                        যোগাযোগ
-                    </Link>
-                    {/* <Link
-                        href={route('home')}
-                        className="block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                    >
-                        Login
-                    </Link> */}
-                </div>
-            )}
         </nav>
     );
 }
