@@ -4,6 +4,8 @@ import { FaCartShopping } from "react-icons/fa6";
 import Cart from "./components/Cart";
 import { useState } from "react";
 import AdminSideBar from "./components/AdminSideBar";
+import TopBar from "./components/TopBar";
+import Footer from "@/Components/Footer";
 
 export default function MainLayout({ children, user, title }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -20,6 +22,7 @@ export default function MainLayout({ children, user, title }) {
             <Head>
                 <title>{title}</title>
             </Head>
+
             <header className="sticky top-0 flex items-center justify-between bg-blue-600 text-white p-4 shadow-md z-40">
                 {user && !user?.isAdmin ? ( //TODO: have to invert the logic
                     <div className="drawer-content z-0 ">
@@ -43,8 +46,9 @@ export default function MainLayout({ children, user, title }) {
                     </div>
                 )}
                 <div></div>
-                <Navbar />
+                <Navbar user={user} />
             </header>
+            <TopBar />
             <main className="container mx-auto px-4 py-8 h-full min-h-[80vh]">
                 {!user?.isAdmin && (
                     <div className="drawer drawer-end z-50">
@@ -81,11 +85,7 @@ export default function MainLayout({ children, user, title }) {
             </main>
             {/* make the footer at the bottom of the page and no margin after the page and it will be at bottom for all the pages. In some pages where less contents are there it is coming up.  */}
 
-            <footer className="bg-gray-200 text-gray-700 p-4 mt-8 ">
-                <p className="text-black text-center">
-                    &copy; 2023 My E-commerce Site
-                </p>
-            </footer>
+            <Footer user={user} />
         </div>
     );
 }

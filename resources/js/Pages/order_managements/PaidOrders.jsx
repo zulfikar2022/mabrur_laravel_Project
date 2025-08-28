@@ -8,7 +8,7 @@ export default function PaidOrders({
     paginationData,
 }) {
     return (
-        <MainLayout user={user} title="Paid Orders">
+        <MainLayout user={user} title="পেইড অর্ডারসমূহ">
             <h2 className="text-center text-2xl mb-2">পেইড অর্ডারসমূহ</h2>
             {orders.length > 0 ? (
                 <div>

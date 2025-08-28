@@ -9,7 +9,7 @@ export default function AllOrders({
 }) {
     console.log(paginationData);
     return (
-        <MainLayout user={user} title="All Orders">
+        <MainLayout user={user} title="সকল অর্ডার">
             <h2 className="text-center text-2xl mb-2 ">সকল অর্ডার</h2>
             {orders.length > 0 ? (
                 <div>

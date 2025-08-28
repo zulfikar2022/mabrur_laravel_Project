@@ -9,7 +9,7 @@ export default function NewOrders({
     paginationData,
 }) {
     return (
-        <MainLayout user={user} title="New Orders">
+        <MainLayout user={user} title="নতুন অর্ডারসমূহ">
             <h2 className="text-center text-2xl mb-2">নতুন অর্ডারসমূহ</h2>
             {orders.length > 0 ? (
                 <div>

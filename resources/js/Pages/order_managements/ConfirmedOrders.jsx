@@ -9,7 +9,7 @@ export default function OrderStatusCard({
 }) {
     // console.log(orderDetails);
     return (
-        <MainLayout user={user} title="Confirmed Orders">
+        <MainLayout user={user} title="কনফার্মড অর্ডারসমূহ">
             <h2 className="text-center text-2xl mb-2 ">কনফার্মড অর্ডারসমূহ</h2>
             {orders.length > 0 ? (
                 <div>

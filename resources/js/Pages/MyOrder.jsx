@@ -7,7 +7,7 @@ export default function MyOrder({ user }) {
     console.log(orderItems);
     return (
         <>
-            <MainLayout title="My Orders" user={user}>
+            <MainLayout title="আমার অর্ডার" user={user}>
                 <h2 className="text-center text-2xl mb-2">আমার অর্ডার</h2>
                 {orderItems && orderItems?.id ? (
                     <div className="border p-4 mb-4 bg-white rounded shadow text-black">

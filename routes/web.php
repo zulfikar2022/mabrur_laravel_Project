@@ -54,17 +54,20 @@ Route::get('/products', function(){
 
 Route::get('/products/specific/khejur', function(){
     $khejurs = Product::where(['category' => 'date', 'is_deleted' => false])->get();
-
+    $user = Auth::user();
     return Inertia::render('Khejur', [
         'products' => $khejurs,
+        'user'=> $user
     ]);
 })->name('products.khejur');
 
 Route::get('/products/specific/badam', function(){
     $badams = Product::where(['category' => 'nut', 'is_deleted' => false])->get();
+    $user = Auth::user();
 
     return Inertia::render('Badam', [
         'products' => $badams,
+        'user' => $user
     ]);
 })->name('products.badam');
 

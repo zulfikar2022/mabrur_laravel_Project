@@ -1,8 +1,9 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import NavigationSideBar from "./NavigationSideBar";
+import TopBar from "./TopBar";
 
-export default function Navbar() {
+export default function Navbar({ user }) {
     const [isOpen, setIsOpen] = useState(false);
     const { url } = usePage();
     console.log("Current URL:", url); // Debugging line to check the current URL
@@ -59,16 +60,18 @@ export default function Navbar() {
                         >
                             বাদাম
                         </Link>
-                        <Link
-                            href={route("my-order")}
-                            className={`hover:text-blue-600 font-medium  ${
-                                url === "/my-order"
-                                    ? "text-blue-600 underline"
-                                    : "text-gray-700"
-                            }`}
-                        >
-                            আমার অর্ডার
-                        </Link>
+                        {(!user || user?.isAdmin) && ( //TODO: have to inver the logic
+                            <Link
+                                href={route("my-order")}
+                                className={`hover:text-blue-600 font-medium  ${
+                                    url === "/my-order"
+                                        ? "text-blue-600 underline"
+                                        : "text-gray-700"
+                                }`}
+                            >
+                                আমার অর্ডার
+                            </Link>
+                        )}
                         <Link
                             href={route("contact")}
                             className={`hover:text-blue-600 font-medium  ${

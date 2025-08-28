@@ -8,9 +8,24 @@ export default function Welcome({ products, name, user }) {
 
     return (
         <>
-            <MainLayout title="Welcome" user={user}>
+            <MainLayout title="মাবরুর ন্যাচারাল হাউজ" user={user}>
                 <div>
-                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="relative mt-4 rounded-lg overflow-hidden shadow-lg mb-4">
+                        <img
+                            src="/images/dates.jpg"
+                            alt="Featured"
+                            className="w-full h-60 md:h-96 object-cover"
+                        />
+                        <div className="absolute inset-0 bg-[#00000075] bg-opacity-50 flex flex-col justify-center items-center">
+                            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 text-center">
+                                আপনার আস্থার ঠিকানা
+                            </h2>
+                            <p className="text-lg md:text-xl text-gray-200 text-center max-w-xl">
+                                প্রতিটি ক্রয়ে সন্তুষ্টি
+                            </p>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-0 md:mt-10">
                         {products.map((product) => {
                             const isCarted = cartItemsFromLocalStorage
                                 ? JSON.parse(cartItemsFromLocalStorage).some(

@@ -8,7 +8,7 @@ export default function DeletedOrders({
     paginationData,
 }) {
     return (
-        <MainLayout user={user} title="Deleted Orders">
+        <MainLayout user={user} title="বাতিলকৃত অর্ডারসমূহ">
             <h2 className="text-center text-2xl mb-2">বাতিলকৃত অর্ডারসমূহ</h2>
             {orders.length > 0 ? (
                 <div>

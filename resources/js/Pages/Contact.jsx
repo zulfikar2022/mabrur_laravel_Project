@@ -5,7 +5,7 @@ import { FaPhoneSquare } from "react-icons/fa";
 
 export default function Contact({ user = null, title = "যোগাযোগ" }) {
     return (
-        <MainLayout user={user} title={title}>
+        <MainLayout user={user} title={"যোগাযোগ"}>
             <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
                 <div className="w-full max-w-2xl shadow-lg rounded-2xl bg-white p-8">
                     <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">
@@ -45,7 +45,7 @@ export default function Contact({ user = null, title = "যোগাযোগ" }
                                 rel="noopener noreferrer"
                                 className="text-blue-600 hover:underline"
                             >
-                                Chat on WhatsApp (+8801677520339)
+                                আমাদের সাথে যুক্ত হোন হোয়াটসএপে (+8801677520339)
                             </a>
                         </div>
 
@@ -61,7 +61,7 @@ export default function Contact({ user = null, title = "যোগাযোগ" }
                                 rel="noopener noreferrer"
                                 className="text-blue-600 hover:underline"
                             >
-                                Visit our Facebook Page
+                                আমাদের ফেসবুক পেজ ভিজিট করুন
                             </a>
                         </div>
                     </div>
