@@ -23,8 +23,21 @@ export default function Register() {
     };
 
     return (
-        <MainLayout title="Register" user={null}>
-            <Head title="Register" />
+        <MainLayout title="register" user={null}>
+            <div className="bg-blue-500 text-white p-4 rounded mb-6 max-w-md mx-auto">
+                <p className="text-center mb-4 ">
+                    এই ওয়েবসাইটে পণ্য অর্ডার করার জন্য আপনার রেজিস্টার করার
+                    দরকার নেই। রেজিস্টার না করেই আপনি যেকোনো পণ্য অর্ডার করতে
+                    পারেবন।{" "}
+                </p>
+                <Link
+                    className="text-center underline block mx-auto font-semibold"
+                    href={route("home")}
+                >
+                    পণ্য অর্ডার করুন
+                </Link>
+            </div>
+            <Head title="register" />
 
             <form
                 onSubmit={submit}
@@ -112,14 +125,14 @@ export default function Register() {
                         href={route("login")}
                         className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
-                        Already registered? Go to login
+                        ইতিমধ্যে নিবন্ধিত? লগইন করুন
                     </Link>
 
                     <PrimaryButton
                         className="ms-4 bg-blue-600"
                         disabled={processing}
                     >
-                        Register
+                        রেজিস্টার করুন
                     </PrimaryButton>
                 </div>
             </form>

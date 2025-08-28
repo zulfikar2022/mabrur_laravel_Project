@@ -68,6 +68,14 @@ Route::get('/products/specific/badam', function(){
     ]);
 })->name('products.badam');
 
+Route::get('/contact', function(){
+    $user = Auth::user();
+    return Inertia::render('Contact', [
+        'user'=> $user,
+        'title' => 'Contact Us'
+    ]);
+})->name('contact');
+
 
 
 // Admin specific routes

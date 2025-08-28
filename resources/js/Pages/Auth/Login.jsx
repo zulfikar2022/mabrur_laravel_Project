@@ -6,8 +6,10 @@ import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import MainLayout from "../MainLayout";
+import { useState } from "react";
 
 export default function Login({ status, canResetPassword }) {
+    const [hidePassword, setHidePassword] = useState(true);
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
@@ -23,8 +25,20 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <MainLayout user={null} title="Login">
-            <Head title="Log in" />
+        <MainLayout user={null} title="লগইন">
+            <div className="bg-blue-500 text-white p-4 rounded mb-6 max-w-md mx-auto">
+                <p className="text-center mb-4 ">
+                    এই ওয়েবসাইটে পণ্য অর্ডার করার জন্য আপনার লগইন করার দরকার
+                    নেই। লগইন না করেই আপনি যেকোনো পণ্য অর্ডার করতে পারেবন।{" "}
+                </p>
+                <Link
+                    className="text-center underline block mx-auto font-semibold"
+                    href={route("home")}
+                >
+                    পণ্য অর্ডার করুন
+                </Link>
+            </div>
+            <Head title="লগইন" />
 
             {status && (
                 <div className="mb-4 text-sm font-medium text-green-600">
@@ -37,7 +51,7 @@ export default function Login({ status, canResetPassword }) {
                 className="max-w-md mx-auto bg-white p-8 rounded shadow"
             >
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="ইমেইল" />
 
                     <TextInput
                         id="email"
@@ -54,11 +68,11 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value="পাসওয়ার্ড" />
 
                     <TextInput
                         id="password"
-                        type="password"
+                        type={hidePassword ? "password" : "text"}
                         name="password"
                         value={data.password}
                         className="mt-1 block w-full text-black"
@@ -67,6 +81,22 @@ export default function Login({ status, canResetPassword }) {
                     />
 
                     <InputError message={errors.password} className="mt-2" />
+                    <div className="mt-4 block">
+                        <label className="flex items-center">
+                            <Checkbox
+                                name="show-hide-password"
+                                checked={!hidePassword}
+                                onChange={(e) =>
+                                    setHidePassword(!e.target.checked)
+                                }
+                            />
+                            <span className="ms-2 text-sm text-gray-600">
+                                {hidePassword
+                                    ? "পাসওয়ার্ড দেখান"
+                                    : "পাসওয়ার্ড লুকান"}
+                            </span>
+                        </label>
+                    </div>
                 </div>
 
                 <div className="mt-4 block">
@@ -90,24 +120,15 @@ export default function Login({ status, canResetPassword }) {
                             href={route("register")}
                             className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
-                            Don't have an account? Register
+                            এই সাইটে নতুন? রেজিস্টার করুন
                         </Link>
-
-                        {canResetPassword && (
-                            <Link
-                                href={route("password.request")}
-                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            >
-                                Forgot your password?
-                            </Link>
-                        )}
                     </div>
 
                     <PrimaryButton
                         className="ms-4 bg-blue-600"
                         disabled={processing}
                     >
-                        Log in
+                        লগইন
                     </PrimaryButton>
                 </div>
             </form>

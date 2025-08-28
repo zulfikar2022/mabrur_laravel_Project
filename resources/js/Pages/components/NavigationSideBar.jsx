@@ -1,6 +1,7 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function NavigationSideBar() {
+    const { url } = usePage();
     return (
         <div className="drawer-side z-50">
             <label
@@ -32,35 +33,55 @@ export default function NavigationSideBar() {
                 </div>
                 <Link
                     href={route("home")}
-                    className="block text-gray-700 pt-2 hover:text-blue-600 underline text-xl"
+                    className={`${
+                        url === "/"
+                            ? "text-blue-600 underline"
+                            : "text-gray-700"
+                    } hover:text-blue-600  font-medium pb-2 text-xl`}
                 >
                     হোম
                 </Link>
                 <hr />
                 <Link
-                    href={route("home")}
-                    className="block pt-2 hover:text-blue-600 font-medium text-gray-700  text-xl"
+                    href={route("products.khejur")}
+                    className={`hover:text-blue-600 font-medium pb-2 text-xl ${
+                        url === "/products/specific/khejur"
+                            ? "text-blue-600 underline"
+                            : "text-gray-700 "
+                    }`}
                 >
                     খেজুর
                 </Link>
                 <hr />
                 <Link
-                    href={route("home")}
-                    className="block pt-2 hover:text-blue-600 font-medium  text-blue-600 text-xl"
+                    href={route("products.badam")}
+                    className={`hover:text-blue-600 font-medium pb-2 text-xl ${
+                        url === "/products/specific/badam"
+                            ? "text-blue-600 underline"
+                            : "text-gray-700 "
+                    }`}
                 >
                     বাদাম
                 </Link>
                 <hr />
                 <Link
                     href={route("my-order")}
-                    className="block pt-2 hover:text-blue-600 text-gray-700 font-medium text-xl"
+                    className={`hover:text-blue-600 font-medium pb-2 text-xl  ${
+                        url === "/my-order"
+                            ? "text-blue-600 underline"
+                            : "text-gray-700 "
+                    }`}
                 >
                     আমার অর্ডার
                 </Link>
                 <hr />
                 <Link
-                    href={route("home")}
-                    className="block pt-2 text-gray-700 hover:text-blue-600 font-medium text-xl"
+                    href={route("contact")}
+                    className={`hover:text-blue-600 font-medium pb-2 text-xl  ${
+                        url === "/contact"
+                            ? "text-blue-600 underline"
+                            : "text-gray-700 "
+                    }`}
                 >
                     যোগাযোগ
                 </Link>

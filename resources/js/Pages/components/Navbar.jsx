@@ -31,31 +31,51 @@ export default function Navbar() {
                     <div className="hidden md:flex items-center space-x-6 ml-auto">
                         <Link
                             href={route("home")}
-                            className="text-blue-500 hover:text-blue-600 underline  font-medium"
+                            className={`${
+                                url === "/"
+                                    ? "text-blue-600 underline"
+                                    : "text-gray-700"
+                            } hover:text-blue-600  font-medium`}
                         >
                             হোম
                         </Link>
                         <Link
-                            href={route("home")}
-                            className="hover:text-blue-600 font-medium text-gray-700"
+                            href={route("products.khejur")}
+                            className={`hover:text-blue-600 font-medium  ${
+                                url === "/products/specific/khejur"
+                                    ? "text-blue-600 underline"
+                                    : "text-gray-700"
+                            }`}
                         >
                             খেজুর
                         </Link>
                         <Link
-                            href={route("home")}
-                            className="hover:text-blue-600 text-gray-700 font-medium "
+                            href={route("products.badam")}
+                            className={`hover:text-blue-600 font-medium  ${
+                                url === "/products/specific/badam"
+                                    ? "text-blue-600 underline"
+                                    : "text-gray-700"
+                            }`}
                         >
                             বাদাম
                         </Link>
                         <Link
                             href={route("my-order")}
-                            className="hover:text-blue-600 text-gray-700 font-medium "
+                            className={`hover:text-blue-600 font-medium  ${
+                                url === "/my-order"
+                                    ? "text-blue-600 underline"
+                                    : "text-gray-700"
+                            }`}
                         >
                             আমার অর্ডার
                         </Link>
                         <Link
-                            href={route("home")}
-                            className="text-gray-700 hover:text-blue-600  font-medium"
+                            href={route("contact")}
+                            className={`hover:text-blue-600 font-medium  ${
+                                url === "/contact"
+                                    ? "text-blue-600 underline"
+                                    : "text-gray-700"
+                            }`}
                         >
                             যোগাযোগ
                         </Link>

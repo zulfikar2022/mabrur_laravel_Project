@@ -38,7 +38,7 @@ export default function MainLayout({ children, user, title }) {
                             className="drawer-button btn btn-primary bg-white text-blue-600 border-transparent"
                         >
                             <FaCartShopping />
-                            <p> আপনার কার্ট</p>
+                            <p> আমার কার্ট</p>
                         </label>
                     </div>
                 )}
