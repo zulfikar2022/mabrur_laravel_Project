@@ -44,7 +44,7 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 
 
 Route::get('/products', function(){
-    $products = Product::where('is_deleted', false)->get();
+    $products = Product::where('is_deleted', false)->where('is_available', true)->orderBy('id','desc')->get();
     $user = Auth::user();
     return Inertia::render('Welcome', [
         'products' => $products,
@@ -52,49 +52,21 @@ Route::get('/products', function(){
     ]);
 })->name('products.index');
 
-Route::get('/products/specific/khejur', function(){
-    $khejurs = Product::where(['category' => 'date', 'is_deleted' => false])->get();
-    $user = Auth::user();
-    return Inertia::render('Khejur', [
-        'products' => $khejurs,
-        'user'=> $user
-    ]);
-})->name('products.khejur');
+Route::get('/products/specific/khejur', [ProductController::class, 'showKhejurPage'])->name('products.khejur');
 
-Route::get('/products/specific/badam', function(){
-    $badams = Product::where(['category' => 'nut', 'is_deleted' => false])->get();
-    $user = Auth::user();
+Route::get('/products/specific/badam', [ProductController::class, 'showBadamPage'])->name('products.badam');
 
-    return Inertia::render('Badam', [
-        'products' => $badams,
-        'user' => $user
-    ]);
-})->name('products.badam');
-
-Route::get('/contact', function(){
-    $user = Auth::user();
-    return Inertia::render('Contact', [
-        'user'=> $user,
-        'title' => 'Contact Us'
-    ]);
-})->name('contact');
+Route::get('/contact', [ProductController::class, 'showContactPage'])->name('contact');
 
 
 
 // Admin specific routes
-Route::get('/admin/products', function(){
-    $products = Product::getProducts();
-    $user = Auth::user();
-    if($user?->isAdmin){ // TODO: Have to invert the logic
-        return Inertia::render("Unauthorized", [
-            'user' => $user
-        ]);
-    }
-    return Inertia::render('AdminProducts', [
-        'products' => $products,
-        'user'=> $user
-    ]);
-})->name('admin.products')->middleware(['auth' ]);
+Route::get('/admin/products', [ProductController::class, 'showAdminProducts'])->name('admin.products')->middleware(['auth']);
+
+Route::get('/admin/products/in-stock', [ProductController::class, 'showInStockProducts'])->name('admin.products.in-stock')->middleware(['auth' ]);
+
+Route::get('/admin/products/out-of-stock', [ProductController::class, 'outOfStockProducts'])->name('admin.products.out-of-stock')->middleware(['auth' ]);
+Route::get('/admin/products/change-availability', [ProductController::class, 'changeProductsAvailability'])->name('admin.products.change-availability')->middleware(['auth' ]);
 
 
 

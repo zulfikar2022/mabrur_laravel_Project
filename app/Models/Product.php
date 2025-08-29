@@ -26,6 +26,17 @@ class Product extends Model
     public static function getProducts()
     {
         // get products which have isDeleted false
-        return self::where('is_deleted', false)->get();
+        return self::where('is_deleted', false)->where('is_available', true)->orderBy('id','desc')->get();
     }
+
+    public static function getKhejurs()
+    {
+        return self::where(['category' => 'date', 'is_deleted' => false, 'is_available' => true])->orderBy('id','desc')->get();
+    }
+
+    public static function getBadams()
+    {
+        return self::where(['category' => 'nut', 'is_deleted' => false, 'is_available' => true])->orderBy('id','desc')->get();
+    }
+
 }

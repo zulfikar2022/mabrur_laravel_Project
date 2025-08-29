@@ -22,7 +22,11 @@ const Footer = ({ user = null }) => {
                         </Link>
                     </>
                 ) : (
-                    <Link className="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700">
+                    <Link
+                        href={route("logout")}
+                        method="post"
+                        className="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700"
+                    >
                         Logout
                     </Link>
                 )}

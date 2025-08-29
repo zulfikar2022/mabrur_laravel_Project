@@ -41,6 +41,16 @@ export default function AdminSideBar() {
                         সকল প্রোডাক্ট দেখুন
                     </Link>
                 </li>
+                <li>
+                    <Link href={route("admin.products.in-stock")}>
+                        স্টকের প্রোডাক্টসমূহ দেখুন
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route("admin.products.out-of-stock")}>
+                        স্টক আউট প্রোডাক্টসমূহ দেখুন
+                    </Link>
+                </li>
                 <p className="font-bold text-lg mt-4">অর্ডার ম্যানেজমেন্ট</p>
                 <li>
                     <Link href={route("new-order")}>নতুন অর্ডারসমূহ</Link>

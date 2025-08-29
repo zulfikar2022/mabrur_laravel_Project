@@ -184,4 +184,97 @@ class ProductController extends Controller
         $user = Auth::user();
         return redirect()->back()->with('success', 'Product deleted successfully!')->with('products', $products)->with('user', $user);
     }
+
+    public function showInStockProducts() {
+        $user = Auth::user();
+        if($user?->isAdmin ){ //TODO: Have to invert the logic
+            return Inertia::render("Unauthorized", [
+                'user' => $user
+            ]);
+        }
+        $products = Product::getProducts();
+        return Inertia::render('InStockProducts', [
+            'products' => $products,
+            'user'=> $user
+        ]);
+    }
+
+    public function outOfStockProducts() {
+        $user = Auth::user();
+        if($user?->isAdmin ){ //TODO: Have to invert the logic
+            return Inertia::render("Unauthorized", [
+                'user' => $user
+            ]);
+        }
+        $products = Product::where('is_deleted', false)->where('is_available', false)->orderBy('id','desc')->get();
+        return Inertia::render('OutOfStockProducts', [
+            'products' => $products,
+            'user'=> $user
+        ]);
+    }
+
+    public function showAdminProducts(){
+    $products = Product::where('is_deleted', false)->orderBy('id','desc')->get();
+    $user = Auth::user();
+    if($user?->isAdmin){ // TODO: Have to invert the logic
+        return Inertia::render("Unauthorized", [
+            'user' => $user
+        ]);
+    }
+    return Inertia::render('AdminProducts', [
+        'products' => $products,
+        'user'=> $user
+    ]);
+    }
+
+    public function changeProductsAvailability(Request $request) {
+        
+        $user = Auth::user();
+        if($user?->isAdmin ){ // TODO: Have to invert the logic
+            return Inertia::render("Unauthorized", [
+                'user' => $user
+            ]);
+        }
+
+        $productId = $request->query('id');
+        $product = Product::find($productId);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+
+        $product->is_available = !$product->is_available;
+        $product->save();
+
+        return redirect()->back()->with('success', 'Product availability updated successfully!')->with('product', $product)->with('user', $user);
+    }
+
+    public function showContactPage() {
+    $user = Auth::user();
+    return Inertia::render('Contact', [
+        'user'=> $user,
+        'title' => 'Contact Us'
+    ]);
+    }
+
+    public function showBadamPage(){
+
+    $badams = Product::getBadams();
+    $user = Auth::user();
+
+    return Inertia::render('Badam', [
+        'products' => $badams,
+        'user' => $user
+    ]);
+    }
+
+    public function showKhejurPage(){
+
+    $khejurs = Product::getKhejurs();
+    $user = Auth::user();
+    return Inertia::render('Khejur', [
+        'products' => $khejurs,
+        'user'=> $user
+    ]);
+    }
+
 }
