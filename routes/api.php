@@ -111,9 +111,10 @@ Route::post('/place-order', function (Request $request) {
         $orderProduct->save();
     }
 
-    dd($order);
+    // dd($order);
     return response()->json([
         'message' => 'অর্ডার সফলভাবে সম্পন্ন হয়েছে!',
+        'success' => true,
         'order' => [
             'id' => $order->id,
             'name' => $order->name,

@@ -1,6 +1,6 @@
 import { Link, usePage } from "@inertiajs/react";
 
-export default function NavigationSideBar() {
+export default function NavigationSideBar({ user }) {
     const { url } = usePage();
     return (
         <div className="drawer-side z-50">
@@ -64,16 +64,18 @@ export default function NavigationSideBar() {
                     বাদাম
                 </Link>
                 <hr />
-                <Link
-                    href={route("my-order")}
-                    className={`hover:text-blue-600 font-medium pb-2 text-xl  ${
-                        url === "/my-order"
-                            ? "text-blue-600 underline"
-                            : "text-gray-700 "
-                    }`}
-                >
-                    আমার অর্ডার
-                </Link>
+                {!user || user?.isAdmin ? ( // TODO: have to invert the logic
+                    <Link
+                        href={route("my-order")}
+                        className={`hover:text-blue-600 font-medium pb-2 text-xl  ${
+                            url === "/my-order"
+                                ? "text-blue-600 underline"
+                                : "text-gray-700 "
+                        }`}
+                    >
+                        আমার অর্ডার
+                    </Link>
+                ) : null}
                 <hr />
                 <Link
                     href={route("contact")}

@@ -607,8 +607,11 @@ const ShippingAddress = ({
                 }),
             });
 
+            // console.log(response);
             const data = await response.json();
+
             if (data?.success === false) {
+                console.log(data);
                 Swal.fire({
                     title: "অর্ডার সীমা অতিক্রম",
                     text:
@@ -619,15 +622,18 @@ const ShippingAddress = ({
                 setIsOrdering(false);
                 return;
             }
-            localStorage.setItem(
-                "mabrur_order_items",
-                JSON.stringify(data?.order || {})
-            );
-            Swal.fire({
-                title: "অর্ডার গৃহীত হয়েছে",
-                text: "আপনার অর্ডারটি গ্রহণ করা হয়েছে। সাথে থাকার জন্য ধন্যবাদ।",
-                icon: "success",
-            });
+            if (data.success === true) {
+                console.log(data);
+                localStorage.setItem(
+                    "mabrur_order_items",
+                    JSON.stringify(data?.order || {})
+                );
+                Swal.fire({
+                    title: "অর্ডার গৃহীত হয়েছে",
+                    text: "আপনার অর্ডারটি গ্রহণ করা হয়েছে। সাথে থাকার জন্য ধন্যবাদ।",
+                    icon: "success",
+                });
+            }
         } catch (error) {
             console.log(error);
             setError("❌ অর্ডার দিতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");

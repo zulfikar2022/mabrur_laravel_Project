@@ -60,7 +60,7 @@ export default function Navbar({ user }) {
                         >
                             বাদাম
                         </Link>
-                        {(!user || user?.isAdmin) && ( //TODO: have to inver the logic
+                        {!user || user?.isAdmin ? ( //TODO: have to inver the logic
                             <Link
                                 href={route("my-order")}
                                 className={`hover:text-white text-black font-bold text-xl  ${
@@ -71,7 +71,7 @@ export default function Navbar({ user }) {
                             >
                                 আমার অর্ডার
                             </Link>
-                        )}
+                        ) : null}
                         <Link
                             href={route("contact")}
                             className={`hover:text-white text-black font-bold text-xl  ${
@@ -112,7 +112,7 @@ export default function Navbar({ user }) {
                                     </svg>
                                 </label>
                             </div>
-                            <NavigationSideBar />
+                            <NavigationSideBar user={user} />
                         </div>
                     </div>
                 </div>
