@@ -111,6 +111,7 @@ Route::post('/place-order', function (Request $request) {
         $orderProduct->save();
     }
 
+    dd($order);
     return response()->json([
         'message' => 'অর্ডার সফলভাবে সম্পন্ন হয়েছে!',
         'order' => [
@@ -121,7 +122,7 @@ Route::post('/place-order', function (Request $request) {
             'address' => $order->address,
         ],
     ]);
-});
+})->middleware('throttle:three-per-day');
 
 
 

@@ -1,7 +1,7 @@
 import MainLayout from "./MainLayout";
 
 export default function MyOrder({ user }) {
-    const orderItems = JSON.parse(
+    const orderItems = JSON?.parse(
         localStorage.getItem("mabrur_order_items") || "null"
     );
     console.log(orderItems);

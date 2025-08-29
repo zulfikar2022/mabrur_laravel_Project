@@ -608,9 +608,20 @@ const ShippingAddress = ({
             });
 
             const data = await response.json();
+            if (data?.success === false) {
+                Swal.fire({
+                    title: "অর্ডার সীমা অতিক্রম",
+                    text:
+                        data?.message ||
+                        "আপনি দিনে তিনটির বেশি অর্ডার করতে পারবেন না।",
+                    icon: "error",
+                });
+                setIsOrdering(false);
+                return;
+            }
             localStorage.setItem(
                 "mabrur_order_items",
-                JSON.stringify(data?.order)
+                JSON.stringify(data?.order || {})
             );
             Swal.fire({
                 title: "অর্ডার গৃহীত হয়েছে",
@@ -618,9 +629,11 @@ const ShippingAddress = ({
                 icon: "success",
             });
         } catch (error) {
+            console.log(error);
             setError("❌ অর্ডার দিতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
 
-            console.error("Error placing order:", error);
+            // console.error("Error placing order:", error);
+            console.log("Error placing order:", error);
         } finally {
             setIsOrdering(false);
         }
@@ -750,6 +763,7 @@ const ShippingAddress = ({
                             </div>
 
                             <button
+                                disabled={isOrdering}
                                 onClick={placeOrder}
                                 type="submit"
                                 className="bg-blue-500 text-2xl w-full text-white px-4 py-2 rounded hover:bg-blue-600"

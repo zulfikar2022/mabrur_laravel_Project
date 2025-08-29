@@ -9,7 +9,7 @@ export default function Navbar({ user }) {
     console.log("Current URL:", url); // Debugging line to check the current URL
 
     return (
-        <nav className="sticky top-0 bg-white shadow z-50 rounded">
+        <nav className="sticky top-0 z-50 rounded">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
                     {/* Logo */}
@@ -20,7 +20,7 @@ export default function Navbar({ user }) {
                         >
                             <div className="h-14 w-14 mr-2">
                                 <img
-                                    className="overflow-hidden"
+                                    className="overflow-hidden rounded"
                                     src="/images/logo.png"
                                     alt="Logo"
                                 />
@@ -34,17 +34,17 @@ export default function Navbar({ user }) {
                             href={route("home")}
                             className={`${
                                 url === "/"
-                                    ? "text-blue-600 underline"
+                                    ? "text-white underline"
                                     : "text-gray-700"
-                            } hover:text-blue-600  font-medium`}
+                            } hover:text-white text-black font-bold text-xl`}
                         >
                             হোম
                         </Link>
                         <Link
                             href={route("products.khejur")}
-                            className={`hover:text-blue-600 font-medium  ${
+                            className={`hover:text-white text-black font-bold text-xl ${
                                 url === "/products/specific/khejur"
-                                    ? "text-blue-600 underline"
+                                    ? "text-white underline"
                                     : "text-gray-700"
                             }`}
                         >
@@ -52,9 +52,9 @@ export default function Navbar({ user }) {
                         </Link>
                         <Link
                             href={route("products.badam")}
-                            className={`hover:text-blue-600 font-medium  ${
+                            className={`hover:text-white text-black font-bold text-xl  ${
                                 url === "/products/specific/badam"
-                                    ? "text-blue-600 underline"
+                                    ? "text-white underline"
                                     : "text-gray-700"
                             }`}
                         >
@@ -63,9 +63,9 @@ export default function Navbar({ user }) {
                         {(!user || user?.isAdmin) && ( //TODO: have to inver the logic
                             <Link
                                 href={route("my-order")}
-                                className={`hover:text-blue-600 font-medium  ${
+                                className={`hover:text-white text-black font-bold text-xl  ${
                                     url === "/my-order"
-                                        ? "text-blue-600 underline"
+                                        ? "text-white underline"
                                         : "text-gray-700"
                                 }`}
                             >
@@ -74,9 +74,9 @@ export default function Navbar({ user }) {
                         )}
                         <Link
                             href={route("contact")}
-                            className={`hover:text-blue-600 font-medium  ${
+                            className={`hover:text-white text-black font-bold text-xl  ${
                                 url === "/contact"
-                                    ? "text-blue-600 underline"
+                                    ? "text-white underline"
                                     : "text-gray-700"
                             }`}
                         >
