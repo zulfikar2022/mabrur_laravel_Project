@@ -50,7 +50,7 @@ export default function MainLayout({ children, user, title }) {
             </header>
             <TopBar />
             <main className="container mx-auto px-4 py-8 h-full min-h-[80vh]">
-                {user?.isAdmin && (
+                {user?.isAdmin ? (
                     <div className="drawer drawer-end z-50">
                         {" "}
                         <input
@@ -60,7 +60,7 @@ export default function MainLayout({ children, user, title }) {
                         />
                         <AdminSideBar />
                     </div>
-                )}
+                ) : null}
 
                 <div className="drawer drawer-end">
                     <input
