@@ -130,12 +130,57 @@ class OrderController extends Controller
     ]); 
    }
 
-   public static function getAllOrders(Request $request){
+   public static function getAllOrders(Request $request){       
     if(isAdmin()){ //TODO: Have to invet the logic
         return Inertia::render("Unauthorized", [
             'user' => Auth::user()
         ]);
     }
+    $id = $request->query('id');
+    $customer = $request->query('customer_details');
+    
+    if($id){
+        $orders = Order::where('id', $id)->orderBy('id', 'desc')->paginate(10);
+        if($orders->isEmpty()){
+            return Inertia::render("order_managements/AllOrders", [
+                'user' => Auth::user(),
+                'orderDetails'=> [],
+                'paginationData' => [],
+            ]); 
+        }
+        $orderDetails = getOrderDetails($orders->items());
+        $paginationData = getPaginatedData($orders);
+        return Inertia::render("order_managements/AllOrders", [
+            'user' => Auth::user(),
+            'orderDetails'=> $orderDetails,
+            'paginationData' => $paginationData,
+        ]); 
+    }
+
+    if($customer){
+        $orders = Order::where(function($query) use ($customer){
+            $query->where('name', 'like', '%'.$customer.'%')
+            ->orWhere('mobile', 'like', '%'.$customer.'%')
+            ->orWhere('district', 'like', '%'.$customer.'%')
+            ->orWhere('upazila', 'like', '%'.$customer.'%')
+            ->orWhere('address', 'like', '%'.$customer.'%');
+        })->orderBy('id', 'desc')->paginate(10);
+        if($orders->isEmpty()){
+            return Inertia::render("order_managements/AllOrders", [
+                'user' => Auth::user(),
+                'orderDetails'=> [],
+                'paginationData' => [],
+            ]); 
+        }
+        $orderDetails = getOrderDetails($orders->items());
+        $paginationData = getPaginatedData($orders);
+        return Inertia::render("order_managements/AllOrders", [
+            'user' => Auth::user(),
+            'orderDetails'=> $orderDetails,
+            'paginationData' => $paginationData,
+        ]); 
+    }
+
     $orders = Order::orderBy('id', 'desc')->paginate(10);
     
     $orderDetails = getOrderDetails($orders->items());

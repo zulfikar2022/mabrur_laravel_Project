@@ -1,5 +1,6 @@
 import OrderCard from "../components/OrderCard";
 import Pagination from "../components/Pagination";
+import SearchOrder from "../components/SearchOrder";
 import MainLayout from "../MainLayout";
 
 export default function AllOrders({
@@ -10,6 +11,7 @@ export default function AllOrders({
     console.log(paginationData);
     return (
         <MainLayout user={user} title="সকল অর্ডার">
+            <SearchOrder />
             <h2 className="text-center text-2xl mb-2 ">সকল অর্ডার</h2>
             {orders.length > 0 ? (
                 <div>

@@ -939,7 +939,10 @@ export default function Cart({ isOpen }) {
                         className="text-xl font-semibold border border-white rounded border-1 my-2 py-2 pl-2 flex items-center justify-evenly  hover:cursor-pointer"
                     >
                         {" "}
-                        <span> পণ্যের মোট মূল্য দেখুন </span>{" "}
+                        <span>
+                            {" "}
+                            ডেলিভারি চার্জ সহ পণ্যের মোট মূল্য দেখুন{" "}
+                        </span>{" "}
                         {!seeTotalCost ? (
                             <MdKeyboardArrowRight />
                         ) : (

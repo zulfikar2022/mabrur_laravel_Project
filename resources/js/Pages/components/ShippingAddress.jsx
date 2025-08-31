@@ -694,7 +694,7 @@ const ShippingAddress = ({
                                 className="w-full border rounded p-2 text-black"
                             >
                                 <option className="text-black" value="">
-                                    -- Select Upazila --
+                                    -- উপজেলা নির্বাচন করুন --
                                 </option>
                                 {districtsWithUpazilas[district].map((u) => (
                                     <option
