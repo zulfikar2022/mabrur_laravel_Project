@@ -39,4 +39,11 @@ class Product extends Model
         return self::where(['category' => 'nut', 'is_deleted' => false, 'is_available' => true])->orderBy('id','desc')->get();
     }
 
+    public static function getGhees()
+    {
+        
+        $data = self::where(['category' => 'ghee', 'is_deleted' => false, 'is_available' => true])->orderBy('id','desc')->get();
+        return $data;
+    }
+
 }

@@ -60,6 +60,16 @@ export default function Navbar({ user }) {
                         >
                             বাদাম
                         </Link>
+                        <Link
+                            href={route("products.ghee")}
+                            className={`hover:text-white text-black font-bold text-xl  ${
+                                url === "/products/specific/ghee"
+                                    ? "text-white underline"
+                                    : "text-gray-700"
+                            }`}
+                        >
+                            ঘি
+                        </Link>
                         {!user || user?.isAdmin ? ( //TODO: have to inver the logic
                             <Link
                                 href={route("my-order")}

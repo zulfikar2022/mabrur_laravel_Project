@@ -56,6 +56,8 @@ Route::get('/products/specific/khejur', [ProductController::class, 'showKhejurPa
 
 Route::get('/products/specific/badam', [ProductController::class, 'showBadamPage'])->name('products.badam');
 
+Route::get('/products/specific/ghee', [ProductController::class, 'showGheePage'])->name('products.ghee');
+
 Route::get('/contact', [ProductController::class, 'showContactPage'])->name('contact');
 
 
