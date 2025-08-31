@@ -66,6 +66,7 @@ const AddProduct = ({ user }) => {
                             <option value="nut">বাদাম</option>
                             <option value="mango">আম</option>
                             <option value="ghee">ঘি</option>
+                            <option value="honey">মধু</option>
                         </select>
                     </div>
 

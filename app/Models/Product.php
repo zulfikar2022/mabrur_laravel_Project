@@ -46,4 +46,9 @@ class Product extends Model
         return $data;
     }
 
+    public static function getModhus(){
+        $modhu = self::where(['category'=> 'honey',   'is_deleted'=> false, 'is_available' => true ])->orderBy('id','desc')->get();
+        return $modhu;
+    }
+
 }

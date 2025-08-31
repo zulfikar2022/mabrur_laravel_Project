@@ -10,11 +10,12 @@ const Tabs = ({ products }) => {
         { id: "all", label: "সকল প্রোডাক্ট" },
         { id: "dates", label: "খেজুর" },
         { id: "nuts", label: "বাদাম" },
+        { id: "honey", label: "মধু" },
+        { id: "ghee", label: "ঘি" },
     ];
 
     return (
         <div className="w-full  mx-auto">
-            {/* Tab Buttons */}
             <div className="flex border-b border-gray-300">
                 {tabs.map((tab) => (
                     <button
@@ -96,6 +97,55 @@ const Tabs = ({ products }) => {
                             ) : (
                                 <p className="text-center text-red-600">
                                     কোনো বাদাম পাওয়া যায়নি।
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                )}
+                {activeTab === "honey" && (
+                    <div className="text-black">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                            {products.filter(
+                                (product) => product.category === "honey"
+                            ).length > 0 ? (
+                                products
+                                    .filter(
+                                        (product) =>
+                                            product.category === "honey"
+                                    )
+                                    .map((product) => (
+                                        <AdminProductCard
+                                            key={product.id}
+                                            product={product}
+                                        />
+                                    ))
+                            ) : (
+                                <p className="text-center text-red-600">
+                                    কোনো মধু পাওয়া যায়নি।
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                )}
+                {activeTab === "ghee" && (
+                    <div className="text-black">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                            {products.filter(
+                                (product) => product.category === "ghee"
+                            ).length > 0 ? (
+                                products
+                                    .filter(
+                                        (product) => product.category === "ghee"
+                                    )
+                                    .map((product) => (
+                                        <AdminProductCard
+                                            key={product.id}
+                                            product={product}
+                                        />
+                                    ))
+                            ) : (
+                                <p className="text-center text-red-600">
+                                    কোনো ঘি পাওয়া যায়নি।
                                 </p>
                             )}
                         </div>

@@ -47,7 +47,7 @@ class ProductController extends Controller
         // dd($request->all());
                
         $validated =  $request->validate([
-            'category' => 'required|string|in:date,nut,mango,ghee',
+            'category' => 'required|string|in:date,nut,mango,ghee,honey',
             'name' => 'required|string|max:255',
             'description' => 'string',
             'price_per_kg' => 'required|numeric|min:0.01',
@@ -129,7 +129,7 @@ class ProductController extends Controller
         // dd($request->all());
 
         $validated =  $request->validate([
-            'category' => 'required|string|in:date,nut,mango,ghee',
+            'category' => 'required|string|in:date,nut,mango,ghee,honey',
             'name' => 'required|string|max:255',
             'description' => 'string',
             'price_per_kg' => 'required|numeric|min:0.01',
@@ -282,6 +282,15 @@ class ProductController extends Controller
         $user = Auth::user();
         return Inertia::render('Ghee', [
             'products' => $ghee,
+            'user'=> $user
+        ]);
+    }
+
+    public function showModhuPage(){
+        $modhu = Product::getModhus();
+        $user = Auth::user();
+        return Inertia::render('Modhu', [
+            'products' => $modhu,
             'user'=> $user
         ]);
     }
