@@ -4,7 +4,7 @@ import MainLayout from "./MainLayout";
 export default function Khejur({ products, user }) {
     return (
         <MainLayout user={user} title="খেজুর পণ্যসমূহ">
-            {/* {products.length > 0 ? (
+            {products.length > 0 ? (
                 <>
                     <div className="mb-3 text-center bg-white p-6 rounded-lg shadow">
                         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
@@ -27,9 +27,7 @@ export default function Khejur({ products, user }) {
                 <p className="text-center text-gray-500">
                     কোনো খেজুর পণ্য পাওয়া যায়নি।
                 </p>
-            )} */}
-
-            <div>TThis is ghee page</div>
+            )}
         </MainLayout>
     );
 }
