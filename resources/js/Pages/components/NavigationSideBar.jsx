@@ -66,13 +66,13 @@ export default function NavigationSideBar({ user }) {
                 <hr />
                 <Link
                     href={route("products.ghee")}
-                    className={`hover:text-white text-black font-bold text-xl  ${
+                    className={`hover:text-blue-600 font-medium pb-2 text-xl ${
                         url === "/products/specific/ghee"
-                            ? "text-white underline"
+                            ? "text-blue-600 underline"
                             : "text-gray-700"
                     }`}
                 >
-                    ঘিl
+                    ঘি
                 </Link>
 
                 {!user || user?.isAdmin ? ( // TODO: have to invert the logic
