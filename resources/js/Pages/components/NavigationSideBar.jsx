@@ -75,7 +75,7 @@ export default function NavigationSideBar({ user }) {
                     ঘি
                 </Link>
 
-                {!user || user?.isAdmin ? ( // TODO: have to invert the logic
+                {!user || !user?.isAdmin ? (
                     <Link
                         href={route("my-order")}
                         className={`hover:text-blue-600 font-medium pb-2 text-xl  ${

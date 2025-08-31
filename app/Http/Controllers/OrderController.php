@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
 
     public static function getNewOrders(Request $request){
-    if(isAdmin()){ // TODO: Have to invet the logic
+    if(!isAdmin()){
         return Inertia::render("Unauthorized", [
             'user' => Auth::user()
         ]);
@@ -38,7 +38,7 @@ class OrderController extends Controller
    }
 
    public static function getConfirmedOrders(Request $request){
-         if(isAdmin()){ // TODO: Have to invet the logic
+         if(!isAdmin()){ 
         return Inertia::render("Unauthorized", [
             'user' => Auth::user()
         ]);
@@ -63,7 +63,7 @@ class OrderController extends Controller
    }
 
    public static function getShippedOrders(Request $request){
-    if(isAdmin()){ // TODO: Have to invet the logic
+    if(!isAdmin()){ 
         return Inertia::render("Unauthorized", [
             'user' => Auth::user()
         ]);
@@ -88,7 +88,7 @@ class OrderController extends Controller
 
 
    public static function getDeleteOrders(Request $request){
-    if(isAdmin()){ // TODO: Have to invet the logic
+    if(!isAdmin()){ 
         return Inertia::render("Unauthorized", [
             'user' => Auth::user()
         ]);
@@ -109,7 +109,7 @@ class OrderController extends Controller
    }
 
    public static function getPaidOrders(Request $request){
-    if(isAdmin()){ // TODO: Have to invet the logic
+    if(!isAdmin()){ 
         return Inertia::render("Unauthorized", [
             'user' => Auth::user()
         ]);
@@ -131,7 +131,7 @@ class OrderController extends Controller
    }
 
    public static function getAllOrders(Request $request){       
-    if(isAdmin()){ //TODO: Have to invet the logic
+    if(!isAdmin()){ 
         return Inertia::render("Unauthorized", [
             'user' => Auth::user()
         ]);

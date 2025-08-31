@@ -24,7 +24,7 @@ export default function MainLayout({ children, user, title }) {
             </Head>
 
             <header className="sticky top-0 flex items-center justify-between bg-blue-600 text-white p-4 shadow-md z-40">
-                {user && !user?.isAdmin ? ( //TODO: have to invert the logic
+                {user && user?.isAdmin ? (
                     <div className="drawer-content z-0 ">
                         {/* Page content here */}
                         <label
@@ -50,10 +50,9 @@ export default function MainLayout({ children, user, title }) {
             </header>
             <TopBar />
             <main className="container mx-auto px-4 py-8 h-full min-h-[80vh]">
-                {!user?.isAdmin && (
+                {user?.isAdmin && (
                     <div className="drawer drawer-end z-50">
                         {" "}
-                        {/* TODO: have to invert the logic  */}
                         <input
                             id="my-drawer-4"
                             type="checkbox"

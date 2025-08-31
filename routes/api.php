@@ -135,7 +135,7 @@ Route::get('/admin/change-status', function (Request $request) {
 
     $user = Auth::user();
 
-    if ($user && $user?->is_admin) { //TODO: Have to invert the logic
+    if (!$user || !$user?->is_admin) { 
         return response()->json(['error' => 'Unauthorized', 'success' => false], 401);
     }
 

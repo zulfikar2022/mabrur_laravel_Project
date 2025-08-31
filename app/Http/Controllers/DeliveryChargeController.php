@@ -14,7 +14,7 @@ class DeliveryChargeController extends Controller
     public function showDeliveryCharge(Request $request)
     {
         $user = Auth::user();
-        if($user?->isAdmin){ // TODO: have to invert the logic
+        if(!$user?->isAdmin){ 
             return Inertia::render('Unauthorized', [
                 'user' => $user
             ]);
@@ -31,7 +31,7 @@ class DeliveryChargeController extends Controller
     public function addNewDeliveryChargeForm(Request $request)
     {
         $user = Auth::user();
-        if($user?->isAdmin){ // TODO: have to invert the logic
+        if(!$user?->isAdmin){ 
             return Inertia::render('Unauthorized', [
                 'user' => $user
             ]);
@@ -44,7 +44,7 @@ class DeliveryChargeController extends Controller
 
     public function saveDeliveryCharges(Request $request){
         $user = Auth::user();
-        if($user?->isAdmin){ // TODO: have to invert the logic
+        if(!$user?->isAdmin){ 
             return Inertia::render('Unauthorized', [
                 'user' => $user
             ]);

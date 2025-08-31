@@ -80,7 +80,7 @@ export default function Navbar({ user }) {
                         >
                             মধু
                         </Link>
-                        {!user || user?.isAdmin ? ( //TODO: have to inver the logic
+                        {!user || !user?.isAdmin ? (
                             <Link
                                 href={route("my-order")}
                                 className={`hover:text-white text-black font-bold text-xl  ${
