@@ -279,7 +279,6 @@ class ProductController extends Controller
 
     public function showGheePage(){
         $ghee = Product::getGhees();
-        
         $user = Auth::user();
         return Inertia::render('Ghee', [
             'products' => $ghee,
