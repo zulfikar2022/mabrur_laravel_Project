@@ -42,10 +42,11 @@ export default function OrderCardProductInfo({
                     ডেলিভারি চার্জঃ {deliveryCharge.toFixed(2)} টাকা
                 </p>
                 <p className="text-sm">
-                    মোট মূল্যঃ {totalPrice.toFixed(2)} টাকা
+                    মোট মূল্যঃ {parseFloat(totalPrice)?.toFixed(2)} টাকা
                 </p>
                 <p className="text-sm font-bold">
-                    মোট পরিশোধযোগ্যঃ {totalPayableAmount.toFixed(2)} টাকা
+                    মোট পরিশোধযোগ্যঃ{" "}
+                    {parseFloat(totalPayableAmount)?.toFixed(2)} টাকা
                 </p>
             </div>
         </div>

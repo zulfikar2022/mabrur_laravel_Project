@@ -650,6 +650,7 @@ export default function Cart({ isOpen }) {
         fetch(route("delivery-charge"))
             .then((res) => res.json())
             .then((data) => {
+                console.log("Delivery charge data from backend: ", data);
                 localStorage.setItem(
                     "mabrur_delivery_charge",
                     JSON.stringify(data)

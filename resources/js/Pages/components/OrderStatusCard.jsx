@@ -34,6 +34,7 @@ export default function OrderStatusCard({
             if (result.isConfirmed) {
                 const url = `/api/admin/change-status?status=${status}&order_id=${order_id}`;
                 try {
+                    console.log("inside try, the url is:", url);
                     const response = await fetch(url, {
                         method: "GET",
                         headers: {
@@ -44,12 +45,6 @@ export default function OrderStatusCard({
                     const data = await response.json();
                     console.log(data);
                     if (data.success) {
-                        // Swal.fire({
-                        //     title: "অর্ডারটির স্ট্যাটাস পরিবর্তন করা হয়েছে!",
-                        //     text: "অর্ডারটির স্ট্যাটাস সফলভাবে পরিবর্তন করা হয়েছে।",
-                        //     icon: "success",
-                        // });
-                        // make a page refresh
                         window.location.reload();
                     } else {
                         Swal.fire({

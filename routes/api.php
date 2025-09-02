@@ -127,15 +127,14 @@ Route::post('/place-order', function (Request $request) {
 
 
 
-Route::get('/admin/change-status', function (Request $request) {
-    // dd("request is received");
-    // $user = $request->user();
+Route::middleware(['web', 'auth'])->get('/admin/change-status', function (Request $request) {
     $routeName = request()->route()->getName();
-    // dd($routeName);
-
+    
     $user = Auth::user();
 
-    if (!$user || !$user?->is_admin) { 
+    // dd($user);
+    // 
+    if( !$user || $user?->is_admin === false) {
         return response()->json(['error' => 'Unauthorized', 'success' => false], 401);
     }
 
@@ -166,6 +165,8 @@ Route::get('/admin/change-status', function (Request $request) {
 });
 
 Route::get('/delivery-charge', function (Request $request) {
+
+    // dd(Auth::user());
     $deliveryCharge = DeliveryCharge::getLatestDeliveryCharge();
     // dd($deliveryCharge);
     return response()->json($deliveryCharge);
