@@ -21,9 +21,11 @@ class CourierController extends Controller
                 'user' => $user
             ]);
         }
-
+        
+        $allCouriers = Courier::all(['id', 'name']);
         return Inertia::render("AllCouriers", [
-            'user' => $user
+            'user' => $user,
+            'couriers' => $allCouriers
         ]);
     }
 
