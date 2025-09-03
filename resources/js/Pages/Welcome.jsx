@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProductCard from "./components/ProductCard";
 import MainLayout from "./MainLayout";
+import { Head } from "@inertiajs/react";
 
 export default function Welcome({ products, name, user }) {
     const cartItemsFromLocalStorage = localStorage.getItem("mabrur_cart_items");
