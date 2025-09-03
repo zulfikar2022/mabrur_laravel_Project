@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourierController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -72,6 +73,15 @@ Route::get('/admin/products/in-stock', [ProductController::class, 'showInStockPr
 Route::get('/admin/products/out-of-stock', [ProductController::class, 'outOfStockProducts'])->name('admin.products.out-of-stock')->middleware(['auth' ]);
 Route::get('/admin/products/change-availability', [ProductController::class, 'changeProductsAvailability'])->name('admin.products.change-availability')->middleware(['auth' ]);
 
+//admin specific courier controller routes
+
+Route::get("/admin/couriers", [CourierController::class, 'index'])->name('admin.couriers')
+->middleware(['auth']);
+
+Route::get("/admin/couriers/create", [CourierController::class, 'create'])->name('admin.couriers.create')
+->middleware(['auth']);
+
+Route::post("/admin/couriers", [CourierController::class, 'store'])->name('admin.couriers.store')->middleware(['auth']);
 
 
 

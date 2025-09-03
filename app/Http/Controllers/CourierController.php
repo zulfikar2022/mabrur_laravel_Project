@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Courier;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CourierController extends Controller
 {
@@ -12,7 +15,16 @@ class CourierController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        if(!$user?->isAdmin ){
+            return Inertia::render("Unauthorized", [
+                'user' => $user
+            ]);
+        }
+
+        return Inertia::render("AllCouriers", [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -20,7 +32,16 @@ class CourierController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth::user();
+        if(!$user?->isAdmin ){
+            return Inertia::render("Unauthorized", [
+                'user' => $user
+            ]);
+        }
+
+        return Inertia::render("AddNewCourier", [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -28,7 +49,21 @@ class CourierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        if(!$user?->isAdmin ){
+            return Inertia::render("Unauthorized", [
+                'user' => $user
+            ]);
+        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        // dd($request->all());
+
+        Courier::create($request->only('name'));
+
+        return redirect()->route('admin.couriers');
     }
 
     /**

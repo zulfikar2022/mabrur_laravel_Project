@@ -1,3 +1,4 @@
+import { Head } from "@inertiajs/react";
 import ProductCard from "./components/ProductCard";
 import MainLayout from "./MainLayout";
 

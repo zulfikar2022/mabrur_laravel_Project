@@ -89,6 +89,17 @@ export default function AdminSideBar() {
                         নতুন ডেলিভারি চার্জ যুক্ত করুন
                     </Link>
                 </li>
+                <p className="font-bold text-lg mt-4">কুরিয়ার ম্যানেজমেন্ট</p>
+                <li>
+                    <Link href={route("admin.couriers.create")}>
+                        নতুন কুরিয়ার যুক্ত করুন
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route("admin.couriers")}>
+                        কুরিয়ারসমূহ দেখুন
+                    </Link>
+                </li>
             </ul>
         </div>
     );

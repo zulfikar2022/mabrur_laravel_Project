@@ -1,3 +1,4 @@
+import { Head } from "@inertiajs/react";
 import MainLayout from "./MainLayout";
 import { FaFacebook } from "react-icons/fa";
 import { FaWhatsappSquare } from "react-icons/fa";
