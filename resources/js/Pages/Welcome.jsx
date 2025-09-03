@@ -9,6 +9,49 @@ export default function Welcome({ products, name, user }) {
     return (
         <>
             <MainLayout title="মাবরুর ন্যাচারাল হাউজ" user={user}>
+                <Head>
+                    <meta
+                        name="description"
+                        content="Discover premium quality dates, nuts, honey, and ghee at Mabrur Natural House. Fresh, organic, and delivered to your doorstep."
+                    />
+                    <meta
+                        name="keywords"
+                        content="buy dates online, buy nuts, honey online, pure ghee, organic food, Mabrur Natural House, natural products, healthy food online"
+                    />
+
+                    <meta
+                        property="og:title"
+                        content="Buy Dates, Nuts, Honey & Ghee Online | Mabrur Natural House"
+                    />
+                    <meta
+                        property="og:description"
+                        content="Shop fresh dates, crunchy nuts, pure honey, and organic ghee online from Mabrur Natural House."
+                    />
+                    <meta property="og:type" content="website" />
+                    <meta
+                        property="og:url"
+                        content="https://mabrurnaturalhouse.com/"
+                    />
+                    <meta
+                        property="og:image"
+                        content="https://mabrurnaturalhouse.com/images/home-banner.jpg"
+                    />
+
+                    <meta name="twitter:card" content="summary_large_image" />
+                    <meta
+                        name="twitter:title"
+                        content="Buy Dates, Nuts, Honey & Ghee Online | Mabrur Natural House"
+                    />
+                    <meta
+                        name="twitter:description"
+                        content="Shop fresh dates, crunchy nuts, pure honey, and organic ghee online from Mabrur Natural House."
+                    />
+                    <meta
+                        name="twitter:image"
+                        content="https://mabrurnaturalhouse.com/images/home-banner.jpg"
+                    />
+                </Head>
+
                 <div>
                     <div className="relative mt-4 rounded-lg overflow-hidden shadow-lg mb-4">
                         <img

@@ -8,6 +8,49 @@ export default function MyOrder({ user }) {
     return (
         <>
             <MainLayout title="আমার অর্ডার" user={user}>
+                <Head>
+                    <meta
+                        name="description"
+                        content="Check your past orders of dates, nuts, honey, and ghee at Mabrur Natural House."
+                    />
+                    <meta
+                        name="keywords"
+                        content="my orders, order history, Mabrur Natural House orders"
+                    />
+
+                    <meta
+                        property="og:title"
+                        content="My Orders | Mabrur Natural House"
+                    />
+                    <meta
+                        property="og:description"
+                        content="Track your past orders from Mabrur Natural House."
+                    />
+                    <meta property="og:type" content="website" />
+                    <meta
+                        property="og:url"
+                        content="https://mabrurnaturalhouse.com/my-order"
+                    />
+                    <meta
+                        property="og:image"
+                        content="https://mabrurnaturalhouse.com/images/date-banner.jpg"
+                    />
+
+                    <meta name="twitter:card" content="summary_large_image" />
+                    <meta
+                        name="twitter:title"
+                        content="My Orders | Mabrur Natural House"
+                    />
+                    <meta
+                        name="twitter:description"
+                        content="Track your past orders from Mabrur Natural House."
+                    />
+                    <meta
+                        name="twitter:image"
+                        content="https://mabrurnaturalhouse.com/images/date-banner.jpg"
+                    />
+                </Head>
+
                 <h2 className="text-center text-2xl mb-2">আমার অর্ডার</h2>
                 {orderItems && orderItems?.id ? (
                     <div className="border p-4 mb-4 bg-white rounded shadow text-black">

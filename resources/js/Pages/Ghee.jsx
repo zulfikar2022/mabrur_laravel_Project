@@ -4,6 +4,49 @@ import MainLayout from "./MainLayout";
 export default function Ghee({ products, user }) {
     return (
         <MainLayout user={user} title="ঘি পণ্যসমূহ">
+            <Head>
+                <meta
+                    name="description"
+                    content="Buy pure organic ghee from Mabrur Natural House. Perfect for cooking, health, and flavor."
+                />
+                <meta
+                    name="keywords"
+                    content="buy ghee online, pure ghee, organic ghee, natural ghee, healthy cooking"
+                />
+
+                <meta
+                    property="og:title"
+                    content="Buy Pure Ghee Online | Mabrur Natural House"
+                />
+                <meta
+                    property="og:description"
+                    content="100% pure ghee available at Mabrur Natural House. Fresh, natural, and organic."
+                />
+                <meta property="og:type" content="website" />
+                <meta
+                    property="og:url"
+                    content="https://mabrurnaturalhouse.com/products/specific/ghee"
+                />
+                <meta
+                    property="og:image"
+                    content="https://mabrurnaturalhouse.com/images/ghee-banner.jpg"
+                />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:title"
+                    content="Buy Pure Ghee Online | Mabrur Natural House"
+                />
+                <meta
+                    name="twitter:description"
+                    content="100% pure ghee available at Mabrur Natural House. Fresh, natural, and organic."
+                />
+                <meta
+                    name="twitter:image"
+                    content="https://mabrurnaturalhouse.com/images/ghee-banner.jpg"
+                />
+            </Head>
+
             {products.length > 0 ? (
                 <>
                     <div className="mb-3 text-center bg-white p-6 rounded-lg shadow">

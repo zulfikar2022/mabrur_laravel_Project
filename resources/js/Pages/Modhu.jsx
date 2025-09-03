@@ -4,6 +4,49 @@ import MainLayout from "./MainLayout";
 export default function Modhu({ user, products }) {
     return (
         <MainLayout user={user} title="মধু পণ্যসমূহ">
+            <Head>
+                <meta
+                    name="description"
+                    content="Buy natural honey (modhu) online from Mabrur Natural House. Fresh, pure, and full of nutrition."
+                />
+                <meta
+                    name="keywords"
+                    content="buy honey online, modhu online, natural honey, pure honey, organic honey"
+                />
+
+                <meta
+                    property="og:title"
+                    content="Buy Natural Honey (Modhu) Online | Mabrur Natural House"
+                />
+                <meta
+                    property="og:description"
+                    content="Delicious and pure honey (modhu) sourced naturally from Mabrur Natural House."
+                />
+                <meta property="og:type" content="website" />
+                <meta
+                    property="og:url"
+                    content="https://mabrurnaturalhouse.com/products/specific/modhu"
+                />
+                <meta
+                    property="og:image"
+                    content="https://mabrurnaturalhouse.com/images/honey-banner.jpg"
+                />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:title"
+                    content="Buy Natural Honey (Modhu) Online | Mabrur Natural House"
+                />
+                <meta
+                    name="twitter:description"
+                    content="Delicious and pure honey (modhu) sourced naturally from Mabrur Natural House."
+                />
+                <meta
+                    name="twitter:image"
+                    content="https://mabrurnaturalhouse.com/images/honey-banner.jpg"
+                />
+            </Head>
+
             {products.length > 0 ? (
                 <>
                     <div className="mb-3 text-center bg-white p-6 rounded-lg shadow">

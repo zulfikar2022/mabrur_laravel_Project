@@ -6,6 +6,49 @@ import { FaPhoneSquare } from "react-icons/fa";
 export default function Contact({ user = null, title = "যোগাযোগ" }) {
     return (
         <MainLayout user={user} title={"যোগাযোগ"}>
+            <Head>
+                <meta
+                    name="description"
+                    content="Get in touch with Mabrur Natural House for inquiries about dates, nuts, honey, and ghee."
+                />
+                <meta
+                    name="keywords"
+                    content="contact Mabrur Natural House, customer support, get in touch, contact shop owner"
+                />
+
+                <meta
+                    property="og:title"
+                    content="Contact Us | Mabrur Natural House"
+                />
+                <meta
+                    property="og:description"
+                    content="Reach out to Mabrur Natural House for any questions or support regarding our products."
+                />
+                <meta property="og:type" content="website" />
+                <meta
+                    property="og:url"
+                    content="https://mabrurnaturalhouse.com/contact"
+                />
+                <meta
+                    property="og:image"
+                    content="https://mabrurnaturalhouse.com/images/date-banner.jpg"
+                />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:title"
+                    content="Contact Us | Mabrur Natural House"
+                />
+                <meta
+                    name="twitter:description"
+                    content="Reach out to Mabrur Natural House for any questions or support regarding our products."
+                />
+                <meta
+                    name="twitter:image"
+                    content="https://mabrurnaturalhouse.com/images/date-banner.jpg"
+                />
+            </Head>
+
             <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
                 <div className="w-full max-w-2xl shadow-lg rounded-2xl bg-white p-8">
                     <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">
