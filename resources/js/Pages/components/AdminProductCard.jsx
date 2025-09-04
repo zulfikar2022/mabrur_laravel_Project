@@ -80,6 +80,10 @@ export default function AdminProductCard({ product }) {
             key={product.id}
             className={`bg-white rounded-lg shadow p-4 flex flex-col items-center ${
                 product.is_available ? "" : "opacity-25"
+            } ${
+                product.is_delivery_charge_free
+                    ? "border-4 border-green-500"
+                    : ""
             }`}
         >
             <img

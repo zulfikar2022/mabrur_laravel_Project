@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-export default function FreeDelivery({ setData, yesSelectedProp = false }) {
+export default function FreeDelivery({
+    setData,
+    yesSelectedProp = false,
+    minimumWeight = 1,
+}) {
     const [yesSelected, setYesSelected] = useState(yesSelectedProp);
     return (
         <div className="border p-4 rounded-lg mb-4">
@@ -14,6 +18,7 @@ export default function FreeDelivery({ setData, yesSelectedProp = false }) {
                 type="radio"
                 id="yes"
                 name="fruit"
+                defaultChecked={yesSelectedProp}
                 value="yes"
             />
             <label htmlFor="yes">Yes</label>
@@ -24,7 +29,7 @@ export default function FreeDelivery({ setData, yesSelectedProp = false }) {
                     setYesSelected(false);
                     setData("is_delivery_charge_free", false);
                 }}
-                defaultChecked
+                defaultChecked={!yesSelectedProp}
                 type="radio"
                 id="no"
                 name="fruit"
@@ -46,6 +51,7 @@ export default function FreeDelivery({ setData, yesSelectedProp = false }) {
                             min={1}
                             placeholder="ফ্রি ডেলিভারির জন্য ন্যূনতম ওজন (কেজিতে)"
                             className="mt-2 p-2 border border-gray-300 rounded w-full"
+                            value={minimumWeight}
                             onChange={(e) =>
                                 setData(
                                     "minimum_weight_for_free_delivery",

@@ -18,15 +18,15 @@ export default function UpdateProduct({ user, product, success, couriers }) {
         is_delivery_charge_free: product.is_delivery_charge_free,
         minimum_weight_for_free_delivery:
             product.minimum_weight_for_free_delivery,
-        courier_id: product.courier_id || 1,
+        courier_id: product.courier_id === null ? 1 : product.courier_id,
     });
 
     const { data, setData, processing, put } = form;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);
-        return;
+        // console.log(data);
+        // return;
         put(route("products.update", product.id), {
             onSuccess: () => {
                 window.location.href = route("admin.products");
@@ -73,6 +73,9 @@ export default function UpdateProduct({ user, product, success, couriers }) {
                         <FreeDelivery
                             setData={setData}
                             yesSelectedProp={data.is_delivery_charge_free}
+                            minimumWeight={
+                                data.minimum_weight_for_free_delivery
+                            }
                         />
                         {/* কুরিয়ার সার্ভিস */}
                         <CourierSelect

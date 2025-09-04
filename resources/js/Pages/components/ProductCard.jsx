@@ -31,7 +31,13 @@ export default function ProductCard({ product, isCarted, setRender }) {
 
     return (
         <>
-            <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
+            <div
+                className={`bg-white rounded-lg shadow p-4 flex flex-col items-center justify-between ${
+                    product?.is_delivery_charge_free
+                        ? "p-6 rounded-2xl border-4 border-green-700 shadow-lg shadow-green-300 animate-none"
+                        : ""
+                }`}
+            >
                 <img
                     src={`http://127.0.0.1:8000/storage/${product.image_path}`}
                     alt={product.name}
@@ -43,9 +49,11 @@ export default function ProductCard({ product, isCarted, setRender }) {
                 <p className="text-gray-600 text-sm mb-2">
                     {product.description}
                 </p>
-                <span className="text-blue-600 font-bold">
-                    ৳ {product.price_per_kg}/কেজি
-                </span>
+                <div className="flex flex-row items-center space-x-2">
+                    <span className="text-blue-600 font-bold">
+                        ৳ {product.price_per_kg}/কেজি
+                    </span>
+                </div>
                 <p
                     onClick={addToCart}
                     className={`
@@ -55,6 +63,19 @@ export default function ProductCard({ product, isCarted, setRender }) {
                     <BsCart4 className="inline" />{" "}
                     <span>কার্টে যুক্ত করুন</span>
                 </p>
+                {product.is_delivery_charge_free ? (
+                    <>
+                        <p className="text-green-600 font-bold">
+                            ফ্রি ডেলিভারি
+                        </p>
+                        <p className="text-gray-600 text-sm">
+                            মিনিমাম ওজন:{" "}
+                            {product.minimum_weight_for_free_delivery} কেজি
+                        </p>
+                    </>
+                ) : (
+                    <div></div>
+                )}
             </div>
         </>
     );

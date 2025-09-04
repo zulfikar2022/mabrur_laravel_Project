@@ -144,6 +144,9 @@ class ProductController extends Controller
             'description' => 'string',
             'price_per_kg' => 'required|numeric|min:0.01',
             'total_kg' => 'required|numeric|min:0.01',
+            'is_delivery_charge_free' => 'required|boolean',
+            'minimum_weight_for_free_delivery' => 'required|numeric|min:0',
+            'courier_id' => 'required|exists:couriers,id',
         ]);
 
         
@@ -153,8 +156,9 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price_per_kg = $request->price_per_kg;
         $product->total_available_in_kg = $request->total_kg;
-
-        
+        $product->is_delivery_charge_free = $request->is_delivery_charge_free;
+        $product->minimum_weight_for_free_delivery = $request->minimum_weight_for_free_delivery;
+        $product->courier_id = $request->courier_id;
 
         if($request->image != null) {
             if ($product->image_path) {
