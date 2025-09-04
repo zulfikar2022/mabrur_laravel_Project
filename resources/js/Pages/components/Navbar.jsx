@@ -6,7 +6,6 @@ import TopBar from "./TopBar";
 export default function Navbar({ user }) {
     const [isOpen, setIsOpen] = useState(false);
     const { url } = usePage();
-    console.log("Current URL:", url); // Debugging line to check the current URL
 
     return (
         <nav className="sticky top-0 z-50 rounded">

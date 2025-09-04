@@ -650,7 +650,6 @@ export default function Cart({ isOpen }) {
         fetch(route("delivery-charge"))
             .then((res) => res.json())
             .then((data) => {
-                console.log("Delivery charge data from backend: ", data);
                 localStorage.setItem(
                     "mabrur_delivery_charge",
                     JSON.stringify(data)
@@ -690,7 +689,6 @@ export default function Cart({ isOpen }) {
         // window.location.reload();
     };
 
-    console.log({ totalPrice });
     return (
         <div className="text-white">
             <div className=" text-2xl font-bold flex justify-between items-center gap-2 mb-4">

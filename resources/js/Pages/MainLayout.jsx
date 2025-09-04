@@ -48,7 +48,7 @@ export default function MainLayout({ children, user, title }) {
                 <div></div>
                 <Navbar user={user} />
             </header>
-            <TopBar />
+            {!user?.isAdmin ? <TopBar /> : null}
             <main className="container mx-auto px-4 py-8 h-full min-h-[80vh]">
                 {user?.isAdmin ? (
                     <div className="drawer drawer-end z-50">

@@ -1,8 +1,13 @@
 import { useForm } from "@inertiajs/react";
 import { useState } from "react";
 import MainLayout from "./MainLayout";
+import FreeDelivery from "@/Components/FreeDelivery";
+import CourierSelect from "./components/CourierSelect";
+import SelectProductCategory from "./components/SelectProductCategory";
+import ProductEntryTextField from "./components/product_entry_input_fields/ProductEntryTextField";
+import ProductEntryNumberField from "./components/product_entry_input_fields/ProductEntryNumberField";
 
-const AddProduct = ({ user }) => {
+const AddProduct = ({ user, couriers }) => {
     const { data, setData, post, processing, reset } = useForm({
         category: "date",
         name: "",
@@ -10,6 +15,9 @@ const AddProduct = ({ user }) => {
         price_per_kg: "",
         total_kg: "",
         // image: null,
+        is_delivery_charge_free: false,
+        minimum_weight_for_free_delivery: 0,
+        courier_id: 1,
     });
 
     const [image, setImage] = useState(null);
@@ -26,6 +34,9 @@ const AddProduct = ({ user }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        console.log(data);
+        // return;
 
         if (data.name === "" || data.price_per_kg <= 0 || data.total_kg <= 0) {
             alert("অনুগ্রহ করে সব ফিল্ড সঠিকভাবে পূরণ করুন।");
@@ -50,98 +61,53 @@ const AddProduct = ({ user }) => {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Category Dropdown */}
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text text-black">
-                                প্রোডাক্টের ধরন
-                            </span>
-                        </label>
-                        <select
-                            className="rounded input-bordered w-full border-gray-300 text-black"
-                            onChange={(e) =>
-                                setData("category", e.target.value)
-                            }
-                        >
-                            <option value="date">খেজুর</option>
-                            <option value="nut">বাদাম</option>
-                            <option value="mango">আম</option>
-                            <option value="ghee">ঘি</option>
-                            <option value="honey">মধু</option>
-                        </select>
-                    </div>
+                    <SelectProductCategory setData={setData} />
 
                     {/* Name */}
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text text-blue-500">
-                                নাম
-                            </span>
-                        </label>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="আপনার প্রোডাক্টের নাম দিন"
-                            className="rounded input-bordered w-full border-gray-300 text-black"
-                            onChange={(e) => setData("name", e.target.value)}
-                            required
-                        />
-                    </div>
+                    <ProductEntryTextField
+                        label="নাম"
+                        type="text"
+                        name="name"
+                        placeholder="আপনার প্রোডাক্টের নাম দিন"
+                        setData={setData}
+                    />
 
                     {/* Description */}
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text text-blue-500">
-                                হালকা বিস্তারিত
-                            </span>
-                        </label>
-                        <textarea
-                            placeholder="হালকা বিস্তারিত দিন"
-                            className="rounded textarea-bordered w-full border-gray-300 text-black"
-                            onChange={(e) =>
-                                setData("description", e.target.value)
-                            }
-                        />
-                    </div>
+
+                    <ProductEntryTextField
+                        label="বিস্তারিত"
+                        type="text"
+                        name="description"
+                        placeholder="বিস্তারিত দিন"
+                        setData={setData}
+                    />
+                    <FreeDelivery setData={setData} />
+                    <CourierSelect couriers={couriers} setData={setData} />
 
                     {/* Price Per Kg */}
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text text-blue-500">
-                                প্রতি কেজির মূল্য
-                            </span>
-                        </label>
-                        <input
-                            type="number"
-                            step="1.0"
-                            min="1"
-                            placeholder="প্রতি কেজির মূল্য"
-                            className="rounded input-bordered w-full border-gray-300 text-black"
-                            onChange={(e) =>
-                                setData("price_per_kg", e.target.value)
-                            }
-                            required
-                        />
-                    </div>
+
+                    <ProductEntryNumberField
+                        label="প্রতি কেজির মূল্য"
+                        name="price_per_kg"
+                        type="number"
+                        step="1.0"
+                        min="1"
+                        placeholder="প্রতি কেজির মূল্য"
+                        setData={setData}
+                        required={true}
+                    />
 
                     {/* Total Available in Kg */}
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text text-blue-500">
-                                প্রোডাক্টের মোট পরিমাণ
-                            </span>
-                        </label>
-                        <input
-                            type="number"
-                            step="1.0"
-                            min="1"
-                            placeholder="প্রোডাক্টের মোট পরিমাণ কেজিতে দিন"
-                            className="rounded input-bordered w-full border-gray-300 text-black"
-                            onChange={(e) =>
-                                setData("total_kg", e.target.value)
-                            }
-                            required
-                        />
-                    </div>
+                    <ProductEntryNumberField
+                        label="প্রোডাক্টের মোট পরিমাণ (কেজিতে)"
+                        name="total_kg"
+                        type="number"
+                        step="1.0"
+                        min="1"
+                        placeholder="প্রোডাক্টের মোট পরিমাণ কেজিতে দিন"
+                        setData={setData}
+                        required={true}
+                    />
 
                     {/* Image Upload */}
                     <div className="form-control w-full">
