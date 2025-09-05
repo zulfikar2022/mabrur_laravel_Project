@@ -9,6 +9,7 @@ import Footer from "@/Components/Footer";
 
 export default function MainLayout({ children, user, title }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [district, setDistrict] = useState("");
     const handleDrawerToggle = (e) => {
         const open = e.target.checked;
         setIsDrawerOpen(open);
@@ -76,7 +77,11 @@ export default function MainLayout({ children, user, title }) {
                             className="drawer-overlay"
                         ></label>
                         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 bg-blue-600">
-                            <Cart isOpen={isDrawerOpen} />
+                            <Cart
+                                isOpen={isDrawerOpen}
+                                district={district}
+                                setDistrict={setDistrict}
+                            />
                         </ul>
                     </div>
                 </div>

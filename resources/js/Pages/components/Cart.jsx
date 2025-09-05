@@ -599,11 +599,7 @@ const calculateShippingCharge = (district) => {
     return outsideDhakaFirstKg;
 };
 
-export default function Cart({ isOpen }) {
-    const { get, post } = useForm({
-        products: [],
-        district: "",
-    });
+export default function Cart({ isOpen, district, setDistrict }) {
     const [cartItems, setCartItems] = useState([]);
     const [cartedProducts, setCartedProducts] = useState([]);
     const [quantitiesKg, setQuantitiesKg] = useState([]);
@@ -615,7 +611,7 @@ export default function Cart({ isOpen }) {
     const [shippingCharge, setShippingCharge] = useState(120);
 
     // CART ADDRESS states
-    const [district, setDistrict] = useState("");
+
     const [upazila, setUpazila] = useState("");
     const [mobile, setMobile] = useState("");
     const [address, setAddress] = useState("");
@@ -665,6 +661,8 @@ export default function Cart({ isOpen }) {
                 JSON.parse(localStorage.getItem("mabrur_cart_items")) || [];
             setCartItems(items);
         }
+        setDistrict("");
+        setUpazila("");
     }, [isOpen, renderingController]);
 
     useEffect(() => {
