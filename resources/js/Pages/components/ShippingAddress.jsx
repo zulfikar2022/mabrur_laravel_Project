@@ -559,7 +559,8 @@ const makeOrderIdAndQuantities = () => {
 
         orderIdAndQuantities.push({
             id: productId,
-            quantity: quantityKg + quantityGram,
+            quantity_kg: quantityKg,
+            quantity_gram: quantityGram,
         });
     });
 

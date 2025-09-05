@@ -10,12 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-function shippingChargeCalculatorForStateFast($products, $district){
-    $totalWeight = 0;
-    foreach($products as $product) {
-        $totalWeight += $product['quantity'];
-    }
 
+function shippingChargeCalculatorForStateFast($products, $district){
+    
     $deliveryCharge = DeliveryCharge::getLatestDeliveryCharge();
     $dhaka_first_kg = $deliveryCharge->dhaka_first_kg;
     $dhaka_additional_kgs = $deliveryCharge->dhaka_additional_kgs;
@@ -24,35 +21,72 @@ function shippingChargeCalculatorForStateFast($products, $district){
     $dhaka_one_gram_to_150_gram = $deliveryCharge->dhaka_one_gram_to_150_gram;
     $dhaka_151_gram_to_500_gram = $deliveryCharge->dhaka_151_gram_to_500_gram;
 
+    $totalWeight = 0;
+     foreach($products as $product) {
+        
+        $fetchedProduct = Product::find( $product['id'] );
+        
+        $orderProductWeight = $product['quantity_kg'] + $product['quantity_gram'] / 1000;
+
+        // dd($orderProductWeight);
+
+        if($fetchedProduct->is_delivery_charge_free && $orderProductWeight >= $fetchedProduct->minimum_weight_for_free_delivery){
+            // no logic 
+            // dd('from inside the empty logic part');
+        } else{
+            // dd(['orderProductWeight' => $orderProductWeight]);
+            $totalWeight += $orderProductWeight;
+            
+        }
+    }
+
+
     switch ($district) {
         case 'Dhaka':
             $totalWeightInGram = $totalWeight * 1000;
-            if ($totalWeightInGram <= 150) {
+            if ( $totalWeightInGram > 0 &&  $totalWeightInGram <= 150) {
                 return $dhaka_one_gram_to_150_gram;
-            } elseif ($totalWeightInGram <= 500) {
+            } elseif ( $totalWeightInGram>= 151 && $totalWeightInGram <= 500) {
                 return $dhaka_151_gram_to_500_gram;
             }
             $ceiledWeight = ceil($totalWeight);
             if ($ceiledWeight > 1) {
                 return $dhaka_first_kg + ($ceiledWeight - 1) * $dhaka_additional_kgs;
-            } else {
+            } else if($ceiledWeight == 1) {
                 return $dhaka_first_kg;
+            } else if($ceiledWeight == 0) {
+                return 0;
             }
         default:
             if ($totalWeight > 1) {
                 return $outside_dhaka_first_kg + (ceil($totalWeight) - 1) * $outside_dhaka_additional_kgs;
-            } else {
+            } else if( $totalWeight == 1) {
+                return $outside_dhaka_first_kg;
+            } else if( $totalWeight == 0) {
+                return 0;
+            } else if($totalWeight>0 && $totalWeight < 1){
                 return $outside_dhaka_first_kg;
             }
     }
+
 }
 
-function totalPriceCalculator($products){
+function calculateTotalPriceForFrontend($proudcts){
+    $totalPrice = 0;
+    foreach ($proudcts as $product) {
+        $fetchedProduct = Product::find($product['id']);
+        $quantity = $product['quantity_kg'] + $product['quantity_gram'] / 1000;
+        $totalPrice += $quantity * $fetchedProduct->price_per_kg;
+    }
+    return $totalPrice;
+}
+
+function totalPriceCalculatorWhenPlacingOrder($products){
     $totalPrice = 0;
     foreach($products as $product) {
         $productData = Product::find($product['id']);
         if($productData) {
-            $totalPrice += $productData->price_per_kg * $product['quantity'];
+            $totalPrice += $productData->price_per_kg * ($product['quantity_kg'] + $product['quantity_gram']/1000);
         }
     }
     return $totalPrice;
@@ -76,11 +110,13 @@ Route::get('/products', function (Request $request) {
 });
 
 Route::post('/place-order', function (Request $request) {
+    
     // validate the request
     $validatedData = $request->validate([
         'products' => 'required|array',
         'products.*.id' => 'required|integer|exists:products,id',
-        'products.*.quantity' => 'required|numeric|min:0',
+        'products.*.quantity_kg' => 'required|numeric|min:0',
+        'products.*.quantity_gram'=> 'required|numeric|min:0',
         'name' => 'required|string|max:255',
         'mobile' => 'required|string|size:11|regex:/^01\d{9}$/',
         'district' => 'required|string|max:255',
@@ -97,7 +133,7 @@ Route::post('/place-order', function (Request $request) {
     $order->upazila = $validatedData['upazila'];
     $order->address = $validatedData['address'];
     $order->delivery_charge = shippingChargeCalculatorForStateFast($validatedData['products'], $validatedData['district']);
-    $order->total_price = totalPriceCalculator($validatedData['products']);
+    $order->total_price = totalPriceCalculatorWhenPlacingOrder($validatedData['products']);
     $order->save();
 
     // make the entry for order_products table
@@ -107,7 +143,7 @@ Route::post('/place-order', function (Request $request) {
         $orderProduct = new OrderProduct();
         $orderProduct->order_id = $order->id;
         $orderProduct->product_id = $validatedData['products'][$i]['id'];
-        $orderProduct->quantity = $validatedData['products'][$i]['quantity'];
+        $orderProduct->quantity = $validatedData['products'][$i]['quantity_kg'] + $validatedData['products'][$i]['quantity_gram']/1000;
         $orderProduct->save();
     }
 
@@ -170,10 +206,24 @@ Route::get('/delivery-charge', function (Request $request) {
 })->name('delivery-charge');
 
 Route::post('/calculate-total-charge', function(Request $request) {
-    // dd("hi there");
-    // dd($request->input('products'));
-  return response()->json([
-    'name' => 'zulfikar', 
-    'request' => $request->all()
-  ]);
+    $products = $request->input('products', []);
+    $district = $request->input('district', 'Dhaka');
+    $total_price = calculateTotalPriceForFrontend($products);
+   
+    $productsShiftByStateFast = [];
+    for($i = 0; $i<count($products); $i++){
+         $fetchedProduct =  Product::find($products[$i]['id']);
+         if($fetchedProduct->courier_id == 1){
+            array_push( $productsShiftByStateFast, $products[$i]);
+         }
+    }
+    $shippingChargeForStateFast = shippingChargeCalculatorForStateFast($productsShiftByStateFast, $district);
+    
+    return response()->json([
+    'products' => $products,
+    'district' => $district,
+    'totalPrice'=> $total_price,
+    'shippingCharge' => $shippingChargeForStateFast
+
+    ]);
 })->name('calculate-total-charge');

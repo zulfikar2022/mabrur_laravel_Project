@@ -56,16 +56,16 @@ export default function Welcome({ products, name, user }) {
                 <div>
                     <div className="relative mt-4 rounded-lg overflow-hidden shadow-lg mb-4">
                         <img
-                            src="/images/dates.jpg"
+                            src="/images/home-banner.jpeg"
                             alt="Featured"
                             className="w-full h-60 md:h-96 object-cover"
                         />
                         <div className="absolute inset-0 bg-[#00000075] bg-opacity-50 flex flex-col justify-center items-center">
                             <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 text-center">
-                                আপনার আস্থার ঠিকানা
+                                {/* আপনার আস্থার ঠিকানা */}
                             </h2>
                             <p className="text-lg md:text-xl text-gray-200 text-center max-w-xl">
-                                প্রতিটি ক্রয়ে সন্তুষ্টি
+                                {/* প্রতিটি ক্রয়ে সন্তুষ্টি */}
                             </p>
                         </div>
                     </div>

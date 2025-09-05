@@ -552,53 +552,6 @@ const districtsWithUpazilas = {
     ],
 };
 
-const calculateShippingCharge = (district) => {
-    const productsFromLocalStorage = JSON.parse(
-        localStorage.getItem("mabrur_cart_items")
-    );
-    let deliveryCharges = JSON.parse(
-        localStorage.getItem("mabrur_delivery_charge")
-    );
-    // console.log("Delivery Charges from localStorage: ", deliveryCharges);
-
-    let {
-        dhaka_one_gram_to_150_gram: dhakaOneGramTo150Gram,
-        dhaka_151_gram_to_500_gram: dhaka151GramTo500Gram,
-        dhaka_first_kg: dhakaFirstKg,
-        dhaka_additional_kgs: dhakaAdditionalKgs,
-        outside_dhaka_first_kg: outsideDhakaFirstKg,
-        outside_dhaka_additional_kgs: outsideDhakaAdditionalKgs,
-    } = deliveryCharges;
-
-    let totalWeight = 0;
-    productsFromLocalStorage.forEach((product, index) => {
-        totalWeight += product.quantity_kg + product.quantity_gram / 1000;
-    });
-
-    if (district === "Dhaka") {
-        const totalWeightInGram = totalWeight * 1000;
-        if (totalWeightInGram <= 150) {
-            return dhakaOneGramTo150Gram;
-        } else if (totalWeightInGram <= 500) {
-            return dhaka151GramTo500Gram;
-        }
-        totalWeight = Math.ceil(totalWeight);
-        if (totalWeight > 1) {
-            return dhakaFirstKg + (totalWeight - 1) * dhakaAdditionalKgs;
-        }
-        return dhakaFirstKg;
-    }
-
-    totalWeight = Math.ceil(totalWeight);
-
-    if (totalWeight > 1) {
-        return (
-            outsideDhakaFirstKg + (totalWeight - 1) * outsideDhakaAdditionalKgs
-        );
-    }
-    return outsideDhakaFirstKg;
-};
-
 export default function Cart({ isOpen, district, setDistrict }) {
     const [cartItems, setCartItems] = useState([]);
     const [cartedProducts, setCartedProducts] = useState([]);
@@ -607,8 +560,12 @@ export default function Cart({ isOpen, district, setDistrict }) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [seeTotalCost, setSeeTotalCost] = useState(false);
     const [makeOrder, setMakeOrder] = useState(false);
+    const [isDeliveryChargeLoading, setIsDeliveryChargeLoading] =
+        useState(false);
+    const [errorFetchingDeliveryCharge, setErrorFetchingDeliveryCharge] =
+        useState("");
 
-    const [shippingCharge, setShippingCharge] = useState(120);
+    const [shippingCharge, setShippingCharge] = useState(0);
 
     // CART ADDRESS states
 
@@ -644,16 +601,16 @@ export default function Cart({ isOpen, district, setDistrict }) {
             });
     };
 
-    useEffect(() => {
-        fetch(route("delivery-charge"))
-            .then((res) => res.json())
-            .then((data) => {
-                localStorage.setItem(
-                    "mabrur_delivery_charge",
-                    JSON.stringify(data)
-                );
-            });
-    }, []);
+    // useEffect(() => {
+    //     fetch(route("delivery-charge"))
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             localStorage.setItem(
+    //                 "mabrur_delivery_charge",
+    //                 JSON.stringify(data)
+    //             );
+    //         });
+    // }, []);
 
     useEffect(() => {
         if (isOpen) {
@@ -923,18 +880,6 @@ export default function Cart({ isOpen, district, setDistrict }) {
                     <div
                         onClick={() => {
                             setSeeTotalCost((prev) => !prev);
-                            let total = 0;
-                            cartItems.forEach((product, indx) => {
-                                const productWithPrice = cartedProducts.find(
-                                    (pr) => pr.id === product.id
-                                );
-                                total +=
-                                    productWithPrice.price_per_kg *
-                                        product.quantity_kg +
-                                    (productWithPrice.price_per_kg / 1000) *
-                                        product.quantity_gram;
-                            });
-                            setTotalPrice(total);
                         }}
                         className="text-xl font-semibold border border-white rounded border-1 my-2 py-2 pl-2 flex items-center justify-evenly  hover:cursor-pointer"
                     >
@@ -957,21 +902,37 @@ export default function Cart({ isOpen, district, setDistrict }) {
                         </label>
                         <select
                             value={district}
-                            onChange={(e) => {
+                            onChange={async (e) => {
                                 setDistrict(e.target.value);
                                 setUpazila("");
-                                fetch("/api/calculate-total-charge", {
-                                    method: "POST",
-                                    body: JSON.stringify({
-                                        products: cartItems,
-                                        district: e.target.value,
-                                    }),
-                                    headers: {
-                                        "content-type": "application/json",
-                                    },
-                                })
-                                    .then((res) => res.json())
-                                    .then((data) => console.log(data));
+                                try {
+                                    setIsDeliveryChargeLoading(true);
+                                    setErrorFetchingDeliveryCharge("");
+                                    const res = await fetch(
+                                        "/api/calculate-total-charge",
+                                        {
+                                            method: "POST",
+                                            body: JSON.stringify({
+                                                products: cartItems,
+                                                district: e.target.value,
+                                            }),
+                                            headers: {
+                                                "content-type":
+                                                    "application/json",
+                                            },
+                                        }
+                                    );
+                                    const data = await res.json();
+                                    setTotalPrice(data.totalPrice);
+                                    setShippingCharge(data.shippingCharge);
+                                } catch (error) {
+                                    setErrorFetchingDeliveryCharge(
+                                        "দুঃখিত, পেজ রিফ্রেশ দিয়ে আবার ট্রাই করুন। "
+                                    );
+                                } finally {
+                                    setIsDeliveryChargeLoading(false);
+                                    // setErrorFetchingDeliveryCharge("");
+                                }
                             }}
                             className="w-full border rounded p-2 text-black"
                         >
@@ -990,37 +951,48 @@ export default function Cart({ isOpen, district, setDistrict }) {
                         </select>
                     </div>
                 )}
+
                 {seeTotalCost && district ? (
                     <div className="bg-white text-black px-2 rounded py-4">
                         <div className="flex justify-between  ">
                             <p>পণ্যের মূল্য: </p>
                             <span className="">
                                 {formatNumber(totalPrice)} টাকা
-                                {/* {formatNumber(12)} টাকা */}
                             </span>
                             <hr />
                         </div>
                         <div className="flex justify-between   border-b border-white ">
                             <p>ডেলিভারি চার্জ: </p>
                             <span className="">
-                                {calculateShippingCharge(district)} টাকা
+                                {formatNumber(shippingCharge)} টাকা
                             </span>
                             <hr />
                         </div>
                         <div className="flex justify-between  mt-2">
                             <p>মোট মূল্য: </p>
                             <span className="">
-                                {formatNumber(
-                                    totalPrice +
-                                        calculateShippingCharge(district)
-                                )}
+                                {formatNumber(totalPrice + shippingCharge)}
                                 টাকা
                             </span>
                             <hr />
                         </div>
                     </div>
                 ) : (
-                    <></>
+                    <div>
+                        {isDeliveryChargeLoading ? (
+                            <p>Loading...</p>
+                        ) : (
+                            <div>
+                                {errorFetchingDeliveryCharge ? (
+                                    <p className="text-red-800">
+                                        {errorFetchingDeliveryCharge}
+                                    </p>
+                                ) : (
+                                    <p></p>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 )}
 
                 {cartItems.length > 0 && (
