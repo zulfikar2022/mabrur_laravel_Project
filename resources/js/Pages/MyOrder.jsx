@@ -1,10 +1,11 @@
+import { Head } from "@inertiajs/react";
 import MainLayout from "./MainLayout";
 
 export default function MyOrder({ user }) {
     const orderItems = JSON?.parse(
         localStorage.getItem("mabrur_order_items") || "null"
     );
-    console.log(orderItems);
+
     return (
         <>
             <MainLayout title="আমার অর্ডার" user={user}>

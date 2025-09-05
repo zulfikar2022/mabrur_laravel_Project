@@ -600,7 +600,10 @@ const calculateShippingCharge = (district) => {
 };
 
 export default function Cart({ isOpen }) {
-    const { get } = useForm();
+    const { get, post } = useForm({
+        products: [],
+        district: "",
+    });
     const [cartItems, setCartItems] = useState([]);
     const [cartedProducts, setCartedProducts] = useState([]);
     const [quantitiesKg, setQuantitiesKg] = useState([]);
@@ -623,7 +626,6 @@ export default function Cart({ isOpen }) {
     const [renderingController, setRenderingController] = useState(false);
 
     function formatNumber(num) {
-        console.log("Inside from the formatNumber: ", num);
         if (!num) {
             return 0;
         }
@@ -681,6 +683,8 @@ export default function Cart({ isOpen }) {
         setCartItems(updatedCartItems);
         setCartedProducts(updatedCartedItems);
         setSeeTotalCost(false);
+        setDistrict("");
+        setUpazila("");
         localStorage.setItem(
             "mabrur_cart_items",
             JSON.stringify(updatedCartItems)
@@ -721,7 +725,6 @@ export default function Cart({ isOpen }) {
             </div>
             <div className="">
                 {cartItems?.map(function (item, index) {
-                    console.log("Item from the cart: ", item);
                     const cartedItemIndividual = cartedProducts.find(
                         (p) => p.id === item.id
                     );
@@ -959,6 +962,18 @@ export default function Cart({ isOpen }) {
                             onChange={(e) => {
                                 setDistrict(e.target.value);
                                 setUpazila("");
+                                fetch("/api/calculate-total-charge", {
+                                    method: "POST",
+                                    body: JSON.stringify({
+                                        products: cartItems,
+                                        district: e.target.value,
+                                    }),
+                                    headers: {
+                                        "content-type": "application/json",
+                                    },
+                                })
+                                    .then((res) => res.json())
+                                    .then((data) => console.log(data));
                             }}
                             className="w-full border rounded p-2 text-black"
                         >

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-function shippingChargeCalculator($products, $district){
+function shippingChargeCalculatorForStateFast($products, $district){
     $totalWeight = 0;
     foreach($products as $product) {
         $totalWeight += $product['quantity'];
@@ -96,7 +96,7 @@ Route::post('/place-order', function (Request $request) {
     $order->district = $validatedData['district'];
     $order->upazila = $validatedData['upazila'];
     $order->address = $validatedData['address'];
-    $order->delivery_charge = shippingChargeCalculator($validatedData['products'], $validatedData['district']);
+    $order->delivery_charge = shippingChargeCalculatorForStateFast($validatedData['products'], $validatedData['district']);
     $order->total_price = totalPriceCalculator($validatedData['products']);
     $order->save();
 
@@ -131,9 +131,6 @@ Route::middleware(['web', 'auth'])->get('/admin/change-status', function (Reques
     $routeName = request()->route()->getName();
     
     $user = Auth::user();
-
-    // dd($user);
-    // 
     if( !$user || $user?->is_admin === false) {
         return response()->json(['error' => 'Unauthorized', 'success' => false], 401);
     }
@@ -171,3 +168,12 @@ Route::get('/delivery-charge', function (Request $request) {
     // dd($deliveryCharge);
     return response()->json($deliveryCharge);
 })->name('delivery-charge');
+
+Route::post('/calculate-total-charge', function(Request $request) {
+    // dd("hi there");
+    // dd($request->input('products'));
+  return response()->json([
+    'name' => 'zulfikar', 
+    'request' => $request->all()
+  ]);
+})->name('calculate-total-charge');
