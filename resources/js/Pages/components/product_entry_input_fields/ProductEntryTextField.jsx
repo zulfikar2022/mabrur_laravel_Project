@@ -7,7 +7,7 @@ export default function ProductEntryTextField({
     required = true,
     value = "",
 }) {
-    console.log(name);
+    console.log(name, value);
     return (
         <div className="form-control w-full">
             <label htmlFor={name} className="label">
@@ -21,7 +21,7 @@ export default function ProductEntryTextField({
                 className="rounded input-bordered w-full border-gray-300 text-black"
                 onChange={(e) => setData(name, e.target.value)}
                 required={required}
-                value={value}
+                // value={value}
             />
         </div>
     );

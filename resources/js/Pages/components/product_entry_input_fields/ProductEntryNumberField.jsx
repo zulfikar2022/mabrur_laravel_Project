@@ -24,7 +24,6 @@ export default function ProductEntryNumberField({
                 className="rounded input-bordered w-full border-gray-300 text-black"
                 onChange={(e) => setData(name, e.target.value)}
                 required={required}
-                value={value}
             />
         </div>
     );
