@@ -70,6 +70,7 @@ const AddProduct = ({ user, couriers }) => {
                         name="name"
                         placeholder="আপনার প্রোডাক্টের নাম দিন"
                         setData={setData}
+                        data={data}
                     />
 
                     {/* Description */}
@@ -81,7 +82,7 @@ const AddProduct = ({ user, couriers }) => {
                         placeholder="বিস্তারিত দিন"
                         setData={setData}
                     />
-                    <FreeDelivery setData={setData} />
+                    <FreeDelivery setData={setData} data={data} />
                     <CourierSelect couriers={couriers} setData={setData} />
 
                     {/* Price Per Kg */}
@@ -95,6 +96,7 @@ const AddProduct = ({ user, couriers }) => {
                         placeholder="প্রতি কেজির মূল্য"
                         setData={setData}
                         required={true}
+                        data={data}
                     />
 
                     {/* Total Available in Kg */}
@@ -107,6 +109,7 @@ const AddProduct = ({ user, couriers }) => {
                         placeholder="প্রোডাক্টের মোট পরিমাণ কেজিতে দিন"
                         setData={setData}
                         required={true}
+                        data={data}
                     />
 
                     {/* Image Upload */}

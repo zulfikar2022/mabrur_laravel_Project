@@ -4,8 +4,10 @@ export default function FreeDelivery({
     setData,
     yesSelectedProp = false,
     minimumWeight = 1,
+    data = null,
 }) {
     const [yesSelected, setYesSelected] = useState(yesSelectedProp);
+    console.log({ minimumWeight });
     return (
         <div className="border p-4 rounded-lg mb-4">
             <p>এই প্রোডাক্টের জন্য ফ্রি ডেলিভারি রয়েছে?</p>
@@ -44,22 +46,41 @@ export default function FreeDelivery({
                         <label htmlFor="min-weight">
                             ফ্রি ডেলিভারির জন্য ন্যূনতম ওজন (কেজিতে)
                         </label>
-                        <input
-                            id="min-weight"
-                            type="number"
-                            step={0.5}
-                            min={1}
-                            placeholder="ফ্রি ডেলিভারির জন্য ন্যূনতম ওজন (কেজিতে)"
-                            className="mt-2 p-2 border border-gray-300 rounded w-full"
-                            value={minimumWeight}
-                            onChange={(e) =>
-                                setData(
-                                    "minimum_weight_for_free_delivery",
-                                    e.target.value
-                                )
-                            }
-                            required
-                        />
+                        {minimumWeight === 1 ? (
+                            <input
+                                id="min-weight"
+                                type="number"
+                                step={0.5}
+                                min={1}
+                                placeholder="ফ্রি ডেলিভারির জন্য ন্যূনতম ওজন (কেজিতে)"
+                                className="mt-2 p-2 border border-gray-300 rounded w-full"
+                                // value={minimumWeight}
+                                onChange={(e) =>
+                                    setData(
+                                        "minimum_weight_for_free_delivery",
+                                        e.target.value
+                                    )
+                                }
+                                required
+                            />
+                        ) : (
+                            <input
+                                id="min-weight"
+                                type="number"
+                                step={0.5}
+                                min={1}
+                                placeholder="ফ্রি ডেলিভারির জন্য ন্যূনতম ওজন (কেজিতে)"
+                                className="mt-2 p-2 border border-gray-300 rounded w-full"
+                                value={minimumWeight}
+                                onChange={(e) =>
+                                    setData(
+                                        "minimum_weight_for_free_delivery",
+                                        e.target.value
+                                    )
+                                }
+                                required
+                            />
+                        )}
                     </div>
                 ) : null}
             </div>
