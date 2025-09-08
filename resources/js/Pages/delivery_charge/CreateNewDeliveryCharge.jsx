@@ -39,7 +39,7 @@ export default function CreateNewDeliveryCharge({ user }) {
     return (
         <MainLayout user={user} title="Create New Delivery Charge">
             <h2 className="text-center text-2xl mb-4 ">
-                নতুন ডেলিভারি চার্জ যুক্ত করুন
+                স্টেট ফাস্টে নতুন ডেলিভারি চার্জ যুক্ত করুন
             </h2>
 
             <form

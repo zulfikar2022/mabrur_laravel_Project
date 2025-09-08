@@ -7,6 +7,7 @@ export default function ProductEntryTextField({
     required = true,
     value = "",
 }) {
+    console.log(name);
     return (
         <div className="form-control w-full">
             <label htmlFor={name} className="label">

@@ -5,6 +5,8 @@ import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import MainLayout from "../MainLayout";
+import { useState } from "react";
+import Checkbox from "@/Components/Checkbox";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -13,7 +15,7 @@ export default function Register() {
         password: "",
         password_confirmation: "",
     });
-
+    const [hidePassword, setHidePassword] = useState(true);
     const submit = (e) => {
         e.preventDefault();
 
@@ -83,7 +85,7 @@ export default function Register() {
 
                     <TextInput
                         id="password"
-                        type="password"
+                        type={hidePassword ? "password" : "text"}
                         name="password"
                         value={data.password}
                         className="mt-1 block w-full text-black"
@@ -103,7 +105,7 @@ export default function Register() {
 
                     <TextInput
                         id="password_confirmation"
-                        type="password"
+                        type={hidePassword ? "password" : "text"}
                         name="password_confirmation"
                         value={data.password_confirmation}
                         className="mt-1 block w-full text-black"
@@ -118,6 +120,22 @@ export default function Register() {
                         message={errors.password_confirmation}
                         className="mt-2"
                     />
+                    <div className="mt-4 block">
+                        <label className="flex items-center">
+                            <Checkbox
+                                name="show-hide-password"
+                                checked={!hidePassword}
+                                onChange={(e) =>
+                                    setHidePassword(!e.target.checked)
+                                }
+                            />
+                            <span className="ms-2 text-sm text-gray-600">
+                                {hidePassword
+                                    ? "পাসওয়ার্ড দেখান"
+                                    : "পাসওয়ার্ড লুকান"}
+                            </span>
+                        </label>
+                    </div>
                 </div>
 
                 <div className="mt-4 flex items-center justify-end">

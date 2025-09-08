@@ -10,13 +10,13 @@ const Footer = ({ user = null }) => {
                     <>
                         <Link
                             href={route("register")}
-                            className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
+                            className="px-4 py-2 underline"
                         >
                             Register
                         </Link>
                         <Link
                             href={route("login")}
-                            className="px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700"
+                            className="px-4 py-2 underline"
                         >
                             Login
                         </Link>

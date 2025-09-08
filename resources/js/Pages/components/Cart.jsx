@@ -954,27 +954,28 @@ export default function Cart({ isOpen, district, setDistrict }) {
 
                 {seeTotalCost && district ? (
                     <div className="bg-white text-black px-2 rounded py-4">
-                        <div className="flex justify-between  ">
+                        <div className="flex justify-between ">
                             <p>পণ্যের মূল্য: </p>
                             <span className="">
                                 {formatNumber(totalPrice)} টাকা
                             </span>
-                            <hr />
+                            {/* <hr /> */}
                         </div>
                         <div className="flex justify-between   border-b border-white ">
                             <p>ডেলিভারি চার্জ: </p>
                             <span className="">
                                 {formatNumber(shippingCharge)} টাকা
                             </span>
-                            <hr />
+                            {/* <hr /> */}
                         </div>
+                        <hr />
                         <div className="flex justify-between  mt-2">
                             <p>মোট মূল্য: </p>
                             <span className="">
                                 {formatNumber(totalPrice + shippingCharge)}
                                 টাকা
                             </span>
-                            <hr />
+                            {/* <hr /> */}
                         </div>
                     </div>
                 ) : (

@@ -50,6 +50,7 @@ export default function Login({ status, canResetPassword }) {
                 onSubmit={submit}
                 className="max-w-md mx-auto bg-white p-8 rounded shadow"
             >
+                <h1 className="text-center text-black text-3xl">Login</h1>
                 <div>
                     <InputLabel htmlFor="email" value="ইমেইল" />
 

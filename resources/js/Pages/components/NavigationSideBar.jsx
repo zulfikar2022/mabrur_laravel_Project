@@ -74,6 +74,7 @@ export default function NavigationSideBar({ user }) {
                 >
                     ঘি
                 </Link>
+                <hr />
 
                 {!user || !user?.isAdmin ? (
                     <Link

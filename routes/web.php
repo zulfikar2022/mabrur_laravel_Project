@@ -78,10 +78,10 @@ Route::get('/admin/products/change-availability', [ProductController::class, 'ch
 Route::get("/admin/couriers", [CourierController::class, 'index'])->name('admin.couriers')
 ->middleware(['auth']);
 
-Route::get("/admin/couriers/create", [CourierController::class, 'create'])->name('admin.couriers.create')
-->middleware(['auth']);
+// Route::get("/admin/couriers/create", [CourierController::class, 'create'])->name('admin.couriers.create')
+// ->middleware(['auth']);
 
-Route::post("/admin/couriers", [CourierController::class, 'store'])->name('admin.couriers.store')->middleware(['auth']);
+// Route::post("/admin/couriers", [CourierController::class, 'store'])->name('admin.couriers.store')->middleware(['auth']);
 
 
 

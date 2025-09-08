@@ -210,6 +210,7 @@ Route::post('/calculate-total-charge', function(Request $request) {
     $district = $request->input('district', 'Dhaka');
     $total_price = calculateTotalPriceForFrontend($products);
    
+    // filtering prorducts which will be shifted by 'State Fast' shipping company
     $productsShiftByStateFast = [];
     for($i = 0; $i<count($products); $i++){
          $fetchedProduct =  Product::find($products[$i]['id']);
@@ -224,6 +225,5 @@ Route::post('/calculate-total-charge', function(Request $request) {
     'district' => $district,
     'totalPrice'=> $total_price,
     'shippingCharge' => $shippingChargeForStateFast
-
     ]);
 })->name('calculate-total-charge');

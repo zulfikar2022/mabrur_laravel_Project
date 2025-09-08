@@ -5,7 +5,7 @@ export default function ShowDeliveryCharge({ user, deliveryCharge }) {
     return (
         <MainLayout user={user} title="Current Delivery Charge">
             <h2 className="text-center text-2xl mb-4 ">
-                বর্তমান ডেলিভারি চার্জ
+                স্টেট ফাস্টে বর্তমান ডেলিভারি চার্জ
             </h2>
             <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
                 <div className="flex justify-between">

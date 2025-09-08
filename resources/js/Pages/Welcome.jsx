@@ -56,7 +56,7 @@ export default function Welcome({ products, name, user }) {
                 <div>
                     <div className="relative mt-4 rounded-lg overflow-hidden shadow-lg mb-4">
                         <img
-                            src="/images/home-banner.jpeg"
+                            src="/images/home-banner.svg"
                             alt="Featured"
                             className="w-full h-60 md:h-96 object-cover"
                         />
